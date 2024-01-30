@@ -1,0 +1,4 @@
+Running: xsim.dir/tb_bf16_fma_behav/xsimk -simmode gui -wdb tb_bf16_fma_behav.wdb -simrunnum 0 -socket 36483
+Design successfully loaded
+Design Loading Memory Usage: 31684 KB (Peak: 31804 KB)
+Design Loading CPU Usage: 10 ms
