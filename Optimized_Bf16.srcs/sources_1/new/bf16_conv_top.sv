@@ -70,26 +70,37 @@ module bf16_conversion(
     );
 
     // Logic to select the appropriate output based on operation
-    always @(posedge clk ) begin
-        if(enable)begin
+    
+    assign result = (operation == BF16_TO_FP32_OP) ? fp32_result :
+                (operation == FP32_TO_BF16_OP) ? {16'h0000, bf16_result} :
+                32'h00000000;
+
+    assign fpcsr = (operation == BF16_TO_FP32_OP) ? bf16_fpcsr :
+                (operation == FP32_TO_BF16_OP) ? fp32_fpcsr :
+                4'b0000;
+
+    
+    
+//    always @(posedge clk ) begin
+//        if(enable)begin
         
         
-        case (operation)
-            BF16_TO_FP32_OP: begin
-                result = fp32_result;
-                fpcsr = bf16_fpcsr;
-            end
-            FP32_TO_BF16_OP: begin
-                result = {16'h0000, bf16_result}; // Zero-extend BF16 result to 32 bits
-                fpcsr = fp32_fpcsr;
-            end
-            default: begin
-                result = 32'h00000000;
-                fpcsr = 4'b0000;
-            end
-        endcase
-        end
-    end
+//        case (operation)
+//            BF16_TO_FP32_OP: begin
+//                result = fp32_result;
+//                fpcsr = bf16_fpcsr;
+//            end
+//            FP32_TO_BF16_OP: begin
+//                result = {16'h0000, bf16_result}; // Zero-extend BF16 result to 32 bits
+//                fpcsr = fp32_fpcsr;
+//            end
+//            default: begin
+//                result = 32'h00000000;
+//                fpcsr = 4'b0000;
+//            end
+//        endcase
+//        end
+//    end
 
 endmodule
 

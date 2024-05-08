@@ -33,7 +33,7 @@ module clz (ref_vector, dout);
 
     wire  [REF_VECTOR_WIDTH/2-1:0]  ref_vector_r;
     wire  [REF_VECTOR_WIDTH/2-1:0]  ref_vector_l;
-
+     
     generate 
         if (REF_VECTOR_WIDTH  == 2)
             assign dout = (ref_vector == 2'b00) ? 'd2 : 
@@ -46,5 +46,7 @@ module clz (ref_vector, dout);
             assign dout = (~dout_l[DOUT_LR_WIDTH-1]) ? {dout_l [DOUT_LR_WIDTH-1] & dout_r [DOUT_LR_WIDTH-1], 1'b0                    , dout_l[DOUT_LR_WIDTH-2:0]} :
                                                        {dout_l [DOUT_LR_WIDTH-1] & dout_r [DOUT_LR_WIDTH-1], ~dout_r[DOUT_LR_WIDTH-1], dout_r[DOUT_LR_WIDTH-2:0]};
         end
+        
     endgenerate
+    
 endmodule

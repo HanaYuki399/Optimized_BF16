@@ -1,0 +1,3 @@
+Breakpoint File Version 1.0
+95,true,"/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sim_1/new/bf16_optimized_tb.sv"
+173,true,"/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sim_1/new/bf16_optimized_tb.sv"

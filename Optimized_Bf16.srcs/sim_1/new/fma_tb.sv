@@ -16,7 +16,7 @@ module tb_bf16_fma;
     wire [3:0] fpcsr;
     
     // Instantiate the Unit Under Test (UUT)
-    bf16_fma uut (
+    bf16_fma2 uut (
         .clk(clk),
         .reset(reset),
         .enable(enable),
@@ -39,7 +39,7 @@ module tb_bf16_fma;
         operand_b = 0;
         operand_c = 0;
         enable = 0;
-        operation = 4'b1010; // Assuming operation code for FMA is 0111
+        operation = 4'b0111; // Assuming operation code for FMA is 0111
 
         // Wait for global reset
         #10;
@@ -53,7 +53,7 @@ module tb_bf16_fma;
         operand_c = 16'h40a0; // 5.0
         #10; // Result should be 1.0*2.0 + 5.0 = 7.0 (0x40e0)
 
-        operation = 4'b1010;
+        operation = 4'b0111;
         operand_a = 16'h3f80; // 1.0
         operand_b = 16'h4000; // 2.0
         operand_c = 16'h41a0; // 5.0

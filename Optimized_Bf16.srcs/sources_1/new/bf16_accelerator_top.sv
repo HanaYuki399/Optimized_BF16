@@ -26,7 +26,7 @@ module bf16_accelerator_top(
     input logic enable, // Enable signal for the accelerator
     input logic [31:0] operand_a, // First operand
     input logic [15:0] operand_b, // Second operand
-    input logic [15:0] operand_c, // Third operand for FMA operations
+    input logic [31:0] operand_c, // Third operand for FMA operations
     input logic [3:0] operation,  // Operation type
     output logic [31:0] result,   // Result of the operation
     output logic [3:0] fpcsr,    // Floating-point control and status register
@@ -37,8 +37,8 @@ module bf16_accelerator_top(
 logic conv_enable, maxmin_enable, addmul_enable;
 
 // Internal result and FPCSR signals from submodules
-logic [31:0] conv_result;
-logic [15:0] maxmin_result, addmul_result;
+logic [15:0] maxmin_result;
+logic [31:0] conv_result, addmul_result;
 logic [3:0] conv_fpcsr, maxmin_fpcsr, addmul_fpcsr;
 
  //Instantiate the conversion module
@@ -57,37 +57,27 @@ bf16_conversion bf16_fp32_conversion_inst (
     .clk(clk),
     .reset(reset),
     .enable(maxmin_enable),
-    .operand_a(operand_a),
-    .operand_b(operand_b),
+    .operand_a(operand_a[15:0]),
+    .operand_b(operand_b[15:0]),
     .operation(operation),
     .result(maxmin_result),
     .fpcsr(maxmin_fpcsr)
 );
 
 // Instantiate the add/mul module
-bf16_fma addmul_module (
+bf16_fma_op addmul_module (
     .clk(clk),
     .reset(reset),
-    .enable(addmul_enable),
-    .operand_a(operand_a),
-    .operand_b(operand_b),
-    .operand_c(operand_c),
-    .operation(operation),
+    .en(addmul_enable),
+    .op_a(operand_a),
+    .op_b(operand_b),
+    .op_c(operand_c),
+    .oper(operation),
     .result(addmul_result),
     .fpcsr(addmul_fpcsr)
 );
 
-// Decode logic
-always @(*) begin
-    // Default disable all units
-    if (reset) begin
 
-    conv_enable <= 0;
-    maxmin_enable <= 0;
-    addmul_enable <= 0;
-    end
-
-     else if (enable) begin
 
 //            // Conversion Operations
 //            4'b0000: conv_enable = 1; // BF16 to FP32 Conversion
@@ -105,31 +95,36 @@ always @(*) begin
 //            4'b1000: addmul_enable = 1; // Fused Multiply-Subtract (FMSUB)
 //            4'b1001: addmul_enable = 1; // Fused Negative Multiply-Add (FMNADD)
 //            4'b1010: addmul_enable = 1; // Fused Negative Multiply-Subtract (FMNSUB)
-              conv_enable <= !operation[3] & !operation[2] & !operation[1];
-              maxmin_enable <= !operation[3] & !operation[2] & operation[1];
-              addmul_enable <= operation[3] | operation[2];
+              
         
-
-end
-end
+    assign conv_enable = !operation[3] & !operation[2] & !operation[1];
+    assign maxmin_enable = !operation[3] & !operation[2] & operation[1];
+    assign addmul_enable = operation[3] | operation[2];
+    assign result = ({32{conv_enable}} & conv_result) | ({32{maxmin_enable}} & maxmin_result) | ({32{addmul_enable}} & addmul_result);
+    assign fpcsr = ({32{conv_enable}} & conv_fpcsr) | ({32{maxmin_enable}} & maxmin_fpcsr) | ({32{addmul_enable}} & addmul_fpcsr);
+    assign  valid = enable && (conv_enable || maxmin_enable || addmul_enable);
 // Result and FPCSR aggregation
-always @(posedge clk) begin
-    valid = enable && (conv_enable || maxmin_enable || addmul_enable);
-
-    if (conv_enable) begin
-        result = conv_result;
-        fpcsr = conv_fpcsr;
-    end else if (maxmin_enable) begin
-        result = maxmin_result;
-        fpcsr = maxmin_fpcsr;
-    end else if (addmul_enable) begin
-        result = addmul_result;
-        fpcsr = addmul_fpcsr;
-    end else begin
-        result = 32'h0;
-        fpcsr = 4'h0;
-    end
-end
+//always @(posedge clk) begin
+//    valid = enable && (conv_enable || maxmin_enable || addmul_enable);
+//    conv_enable = !operation[3] & !operation[2] & !operation[1];
+//    maxmin_enable = !operation[3] & !operation[2] & operation[1];
+//    addmul_enable = operation[3] | operation[2];
+//    if (!reset) begin
+//        if (conv_enable) begin
+//            result = conv_result;
+//            fpcsr = conv_fpcsr;
+//        end else if (maxmin_enable) begin
+//            result = maxmin_result;
+//            fpcsr = maxmin_fpcsr;
+//        end else if (addmul_enable) begin
+//            result = addmul_result;
+//            fpcsr = addmul_fpcsr;
+//        end 
+//    end else begin
+//        result = 32'h0;
+//        fpcsr = 4'h0;
+//    end
+//end
 
 
 

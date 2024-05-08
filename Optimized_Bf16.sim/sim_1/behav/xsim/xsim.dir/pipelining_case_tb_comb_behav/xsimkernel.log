@@ -1,0 +1,4 @@
+Running: xsim.dir/pipelining_case_tb_comb_behav/xsimk -simmode gui -wdb pipelining_case_tb_comb_behav.wdb -simrunnum 0 -socket 53877
+Design successfully loaded
+Design Loading Memory Usage: 31652 KB (Peak: 31772 KB)
+Design Loading CPU Usage: 10 ms

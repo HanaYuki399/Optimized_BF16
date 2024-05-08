@@ -1,19 +1,8 @@
 Vivado Simulator v2021.2
 Copyright 1986-1999, 2001-2021 Xilinx, Inc. All Rights Reserved.
-Running: /home/xe-lpt-64/Xilinx/Vivado/2021.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot clz_tb_behav xil_defaultlib.clz_tb xil_defaultlib.glbl -log elaborate.log 
+Running: /home/xe-lpt-64/Xilinx/Vivado/2021.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot bf16_optimized_tb_behav xil_defaultlib.bf16_optimized_tb xil_defaultlib.glbl -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3091] actual bit length 5 differs from formal bit length 6 for port 'dout' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sim_1/new/lzc_tb.sv:38]
 Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.clz(REF_VECTOR_WIDTH=2)
-Compiling module xil_defaultlib.clz(REF_VECTOR_WIDTH=4)
-Compiling module xil_defaultlib.clz(REF_VECTOR_WIDTH=8)
-Compiling module xil_defaultlib.clz(REF_VECTOR_WIDTH=16)
-Compiling module xil_defaultlib.clz_default
-Compiling module xil_defaultlib.clz_tb
-Compiling module xil_defaultlib.glbl
-Built simulation snapshot clz_tb_behav
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel

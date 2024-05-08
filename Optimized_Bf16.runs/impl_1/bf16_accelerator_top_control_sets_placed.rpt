@@ -1,0 +1,90 @@
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Mon May  6 14:05:13 2024
+| Host         : Ruhma-Rizwan running 64-bit Ubuntu 20.04.6 LTS
+| Command      : report_control_sets -verbose -file bf16_accelerator_top_control_sets_placed.rpt
+| Design       : bf16_accelerator_top
+| Device       : xc7a100t
+-------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    12 |
+|    Minimum number of control sets                        |    12 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    65 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    12 |
+| >= 0 to < 4        |     5 |
+| >= 4 to < 6        |     0 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     2 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     1 |
+| >= 16              |     4 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |             122 |           63 |
+| No           | No                    | Yes                    |              72 |           32 |
+| No           | Yes                   | No                     |              69 |           32 |
+| Yes          | No                    | No                     |               0 |            0 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |               0 |            0 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-----------------------------------------------+---------------+----------------------------------------------+------------------+----------------+--------------+
+|                  Clock Signal                 | Enable Signal |               Set/Reset Signal               | Slice Load Count | Bel Load Count | Bels / Slice |
++-----------------------------------------------+---------------+----------------------------------------------+------------------+----------------+--------------+
+|  addmul_module/result_special_reg[6]/G0       |               |                                              |                1 |              1 |         1.00 |
+|  addmul_module/underflow0                     |               |                                              |                1 |              1 |         1.00 |
+|  clk_one                                      |               | addmul_module/p_1_in                         |                1 |              1 |         1.00 |
+|  addmul_module/overflow_reg_i_1_n_0           |               |                                              |                1 |              1 |         1.00 |
+|  addmul_module/result_special_reg[15]_i_2_n_0 |               | addmul_module/invalid                        |                1 |              1 |         1.00 |
+|  clk_one                                      |               | addmul_module/aligned_product_mantissa[31]   |                2 |              9 |         4.50 |
+|  clk_one                                      |               | addmul_module/sum_exp_one[8]_i_1_n_0         |                3 |              9 |         3.00 |
+|  addmul_module/result_special_reg[15]_i_2_n_0 |               | addmul_module/result_special_reg[14]_i_2_n_0 |                9 |             14 |         1.56 |
+|  clk_IBUF_BUFG                                |               |                                              |                8 |             17 |         2.12 |
+|  clk_IBUF_BUFG                                |               | reset_IBUF                                   |               16 |             35 |         2.19 |
+|  clk_one                                      |               | reset_IBUF                                   |               32 |             72 |         2.25 |
+|  clk_one                                      |               |                                              |               52 |            102 |         1.96 |
++-----------------------------------------------+---------------+----------------------------------------------+------------------+----------------+--------------+
+
+

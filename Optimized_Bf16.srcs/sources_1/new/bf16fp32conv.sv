@@ -14,11 +14,11 @@ module bf16_to_fp32(
     logic operand_a_inf, operand_a_zero, operand_a_nan;
 
     // Only execute logic if enabled for this instruction
-    always @(posedge clk or posedge reset) begin
+    always @(posedge clk) begin
         if (reset) begin
-            result <= 0;
-            fpcsr <= 0;
-        end else if (instruction_enable) begin
+            result = 0;
+            fpcsr = 0;
+        end else begin
             // Decompose operand
             operand_a_sign = operand_a[15];
             operand_a_exp = operand_a[14:7];
@@ -31,20 +31,20 @@ module bf16_to_fp32(
 
             // Handle special cases and conversion
             if (operand_a_inf) begin
-                result <= {operand_a_sign, 8'hFF, 23'h000000}; // Infinity
+                result = {operand_a_sign, 8'hFF, 23'h000000}; // Infinity
             end else if (operand_a_zero) begin
-                result <= {operand_a_sign, 8'h00, 23'h000000}; // Zero
+                result = {operand_a_sign, 8'h00, 23'h000000}; // Zero
             end else if (operand_a_nan) begin
-                result <= {1'b0, 8'hFF, {1'b1, 22'h00000}}; // NaN
+                result = {1'b0, 8'hFF, {1'b1, 22'h00000}}; // NaN
             end else begin
-                result <= convert_to_fp32(operand_a_sign, operand_a_exp, operand_a_man);
+                result = convert_to_fp32(operand_a_sign, operand_a_exp, operand_a_man);
             end
 
             // Update fpcsr
-            fpcsr[3] <= operand_a_nan; // Invalid operation flag
-            fpcsr[2] <= 0;             // Overflow flag
-            fpcsr[1] <= 0;             // Underflow flag
-            fpcsr[0] <= 0;             // Inexact flag
+            fpcsr[3] = operand_a_nan; // Invalid operation flag
+            fpcsr[2] = 0;             // Overflow flag
+            fpcsr[1] = 0;             // Underflow flag
+            fpcsr[0] = 0;             // Inexact flag
         end
     end
 
