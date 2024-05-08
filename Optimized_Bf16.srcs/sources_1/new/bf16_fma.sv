@@ -41,9 +41,10 @@ module bf16_fma_op(
     localparam MAN_BITS = 7;
     localparam TOTAL_MAN_BITS = 2 * MAN_BITS + 16 + 2; // Total bits for extended mantissa
     localparam BIAS = 127;
+    localparam EXP_WIDTH = EXP_BITS + 2;
 
     // Decompose operands
-    logic [EXP_BITS-1:0] exp_a, exp_b, exp_c;
+    logic [EXP_WIDTH-1:0] exp_a, exp_b;
     logic [MAN_BITS:0] man_a, man_b; // Including implicit bit
     logic [MAN_BITS-1:0] man_c;
 //    logic operand_a.sign, operand_b.sign, operand_c.sign;
@@ -59,7 +60,7 @@ module bf16_fma_op(
     logic [TOTAL_MAN_BITS:0] sum_mantissa; // In case of overflow
     logic [TOTAL_MAN_BITS+1:0] aligned_sum_mantissa; // For ground bit
     logic [MAN_BITS:0] result_mantissa; // MSB for overflow
-    logic [EXP_BITS:0] product_exp, aligned_addend_exp, sum_exp;
+    logic signed [EXP_WIDTH-1:0] product_exp, aligned_addend_exp, sum_exp;
     logic product_sign, sum_sign;
     logic [4:0] count;
     logic [5:0] lzc_cnt;
@@ -67,8 +68,8 @@ module bf16_fma_op(
     logic [TOTAL_MAN_BITS+1:0] aligned_lzc_mantissa;
     logic [EXP_BITS:0] sum_exp_lzc;
     logic [TOTAL_MAN_BITS:0] current_mantissa;
-    logic [EXP_BITS:0] final_exp;
-    logic [EXP_BITS:0] final_final_exp;
+    logic [EXP_WIDTH-1:0] final_exp;
+    logic [EXP_WIDTH-1:0] final_final_exp;
     logic final_sign;
     logic [15:0] final_result_regular;
     
@@ -77,7 +78,7 @@ module bf16_fma_op(
    logic [3:0] operation;
    logic [3:0] oper_one;
    logic [TOTAL_MAN_BITS-1:0] aligned_product_mantissa_one; 
-   logic [EXP_BITS:0] product_exp_one;
+   logic [EXP_WIDTH-1:0] product_exp_one;
    logic product_sign_one;
    logic result_is_special_one;
    logic [15:0] special_result_one;
@@ -85,7 +86,7 @@ module bf16_fma_op(
    logic is_zero_c_one;
    logic is_sub_c_one;
    logic [TOTAL_MAN_BITS+1:0] aligned_sum_mantissa_one;
-   logic [EXP_BITS:0] sum_exp_one;
+   logic [EXP_WIDTH-1:0] sum_exp_one;
    logic is_zero_c_two;
    logic is_sub_c_two;
    logic result_is_special_two;
@@ -263,21 +264,30 @@ module bf16_fma_op(
    always_comb begin
                 // FMA computation logic
      
+        
+        exp_a = operand_a.exponent;
+        exp_b = operand_b.exponent;
+        
         if (operand_a == 16'h3f80) //operand_a is 1
         begin
             aligned_product_mantissa = {man_b,{(TOTAL_MAN_BITS - MAN_BITS - 1){1'b0}}};
-            product_exp = operand_b.exponent;    
+            product_exp = exp_b;    
         end
         else if (operand_b == 16'h3f80) //operand_b is 1
         begin
             aligned_product_mantissa = {man_a,{(TOTAL_MAN_BITS - MAN_BITS - 1){1'b0}}};
-            product_exp = operand_a.exponent;
+            product_exp = exp_a;
         end
             
         else begin    
             // Calculate product of a and b with extended mantissa
             product_mantissa = man_a * man_b;
-            product_exp = operand_a.exponent + operand_b.exponent - BIAS;
+            product_exp = exp_a + exp_b - signed'(BIAS);
+            if(product_exp <= 0) begin
+                product_exp = 0;
+                product_mantissa = 0;
+                product_sign = 1;
+            end
             if (product_mantissa[2*MAN_BITS+1] == 1) begin
                 product_exp = product_exp + 1;
             end
@@ -452,7 +462,7 @@ module bf16_fma_op(
 //        end
 
         // Handle overflow and underflow
-        if (final_exp >= 2**EXP_BITS) begin
+        if (final_exp >= 2**EXP_BITS - 1) begin
             //fpcsr[2]
             overflow = 1'b1;
             final_result_regular = {final_sign, 8'hFF, 7'h00}; // Infinity

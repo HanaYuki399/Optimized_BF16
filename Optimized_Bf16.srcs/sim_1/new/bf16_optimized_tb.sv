@@ -61,7 +61,7 @@ module bf16_optimized_tb;
         operand_b = 0;
         operand_c = 0;
         enable = 0;
-        operation = 4'b1000; // Assuming operation code for FMA is 0111
+        operation = 4'b0111; // Assuming operation code for FMA is 0111
 
         // Wait for global reset
         #10;
@@ -172,7 +172,18 @@ module bf16_optimized_tb;
         operand_b = 16'h1356; // -2.0
         operand_c = 16'h4000; // 2.0
         #10; // Result should be 4.0 + 2.0 = 6.0 (0x40C0)
-        #30
+        
+        // Test case 9: Mixed sign operands
+        operand_a = 16'h3200; // -2.0
+        operand_b = 16'h2000; // -2.0
+        operand_c = 16'h4000; // 2.0
+        #10; // Result should be 4.0 + 2.0 = 6.0 (0x40C0)
+        
+        // Test case 9: Mixed sign operands
+        operand_a = 16'h4000; // -2.0
+        operand_b = 16'h4000; // -2.0
+        operand_c = 16'h2000; // 2.0
+        #40
         // Finish the simulation
         $finish;
     end
