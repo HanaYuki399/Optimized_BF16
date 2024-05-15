@@ -59,7 +59,18 @@ module bf16_minmax(
 //    assign operand_a_nan = (operand_a_exp == 8'hFF) && (operand_a_man != 0);
 //    assign operand_b_nan = (operand_b_exp == 8'hFF) && (operand_b_man != 0);
 
-    always @(posedge clk ) begin
+    logic clkg_en;
+
+    always_latch  begin
+     if(~clk) 
+        clkg_en = enable;
+    end
+       
+    assign gated_clk = clk & clkg_en;
+    
+    
+    
+    always @(posedge gated_clk ) begin
         // Reset FPCSR flags
         if (reset) begin
             result = 16'b0;

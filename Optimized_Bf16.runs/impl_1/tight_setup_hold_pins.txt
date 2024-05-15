@@ -1,9 +1,12 @@
 +==============+===============+====================================+
 | Launch Clock | Capture Clock | Pin                                |
 +==============+===============+====================================+
-| clk          | clk           | addmul_module/sum_exp_one_reg[8]/D |
-| clk          | clk           | addmul_module/sum_exp_one_reg[5]/D |
 | clk          | clk           | addmul_module/sum_exp_one_reg[4]/D |
+| clk          | clk           | addmul_module/sum_exp_one_reg[6]/D |
+| clk          | clk           | addmul_module/result_reg[9]/D      |
 | clk          | clk           | addmul_module/sum_exp_one_reg[3]/D |
-| clk          | clk           | addmul_module/sum_exp_one_reg[2]/D |
+| clk          | clk           | addmul_module/result_reg[8]/D      |
+| clk          | clk           | addmul_module/result_reg[11]/D     |
+| clk          | clk           | addmul_module/result_reg[13]/D     |
+| clk          | clk           | addmul_module/result_reg[14]/D     |
 +--------------+---------------+------------------------------------+

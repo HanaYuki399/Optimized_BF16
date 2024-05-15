@@ -83,6 +83,7 @@ module bf16_fma_op(
    logic result_is_special_one;
    logic [15:0] special_result_one;
    logic invalid_one;
+   logic invalid_two;
    logic is_zero_c_one;
    logic is_sub_c_one;
    logic [TOTAL_MAN_BITS+1:0] aligned_sum_mantissa_one;
@@ -133,8 +134,16 @@ module bf16_fma_op(
     //pipelined fp_t variables
     fp_t operand_c_one;
     
+    logic clkg_en;
+
+    always_latch  begin
+     if(~clk) 
+        clkg_en = enable;
+    end
+       
+    assign gated_clk = clk & clkg_en;
     
-    always @(posedge clk_one or posedge reset) begin
+    always @(posedge gated_clk or posedge reset) begin
     
     if(reset) begin
         oper_a <= 0;
@@ -223,7 +232,11 @@ module bf16_fma_op(
         
         is_sub_a = operand_a.exponent == 0 && man_a[6:0] != 0;
         is_sub_b = operand_b.exponent == 0 && man_b[6:0] != 0;
-        is_sub_c = operand_c.exponent == 0 && man_c[6:0] != 0;  
+        is_sub_c = operand_c.exponent == 0 && man_c[6:0] != 0;
+        
+        if(is_sub_a) begin is_zero_a = 1'b1; end 
+        if(is_sub_b) begin is_zero_b = 1'b1; end 
+        if(is_sub_c) begin is_zero_c = 1'b1; operand_c = 0; end 
     
             
     end
@@ -301,7 +314,7 @@ module bf16_fma_op(
         
     end
         
-    always @(posedge clk_one) begin
+    always @(posedge gated_clk) begin
     
         aligned_product_mantissa_one <= aligned_product_mantissa;
         product_exp_one <= product_exp;
@@ -321,55 +334,54 @@ module bf16_fma_op(
     always_comb begin
         
         if (is_zero_c_one || is_sub_c_one) begin
-            result_regular = {product_sign_one,product_exp_one[7:0],aligned_product_mantissa_one[TOTAL_MAN_BITS-1:TOTAL_MAN_BITS-7]};
+            result_regular = {product_sign_one, product_exp_one[7:0], aligned_product_mantissa_one[TOTAL_MAN_BITS-1:TOTAL_MAN_BITS-7]};
         end
-        
-        
+    
         // Align addend (operand_c) with product
         aligned_addend_exp = operand_c_one.exponent;
         aligned_addend_mantissa = {1'b1, operand_c_one.mantissa, {(TOTAL_MAN_BITS - MAN_BITS - 1){1'b0}}}; // Extend addend mantissa
         exp_aligned_product_mantissa = aligned_product_mantissa_one;
+    
         // Align addend exponent with product exponent
-        if (aligned_addend_exp < product_exp_one) begin
-            aligned_addend_mantissa = aligned_addend_mantissa >> (product_exp_one - aligned_addend_exp);
-            aligned_addend_exp = product_exp_one;
-        end else if (aligned_addend_exp > product_exp_one) begin
-            exp_aligned_product_mantissa = aligned_product_mantissa_one >> (aligned_addend_exp - product_exp_one);
-            //product_exp_one = aligned_addend_exp;
+        if (aligned_addend_exp != product_exp_one) begin
+            if (aligned_addend_exp < product_exp_one) begin
+                aligned_addend_mantissa = aligned_addend_mantissa >> (product_exp_one - aligned_addend_exp);
+                aligned_addend_exp = product_exp_one;
+            end else begin
+                exp_aligned_product_mantissa = aligned_product_mantissa_one >> (aligned_addend_exp - product_exp_one);
+                //product_exp_one = aligned_addend_exp;
+            end
+            
         end
-
         // Determine if operation is effectively a subtraction
         effective_subtraction = (product_sign_one != operand_c_one.sign);
         
         // Add/Subtract product and addend
-        if (effective_subtraction) begin
-            if (exp_aligned_product_mantissa >= aligned_addend_mantissa) begin
-                sum_mantissa = exp_aligned_product_mantissa - aligned_addend_mantissa;
-                sum_sign = product_sign_one;
-            end else begin
-                sum_mantissa = aligned_addend_mantissa - exp_aligned_product_mantissa;
-                sum_sign = operand_c_one.sign;
-            end
+        
+
+        // Compute sum mantissa and sum sign
+        if (effective_subtraction && exp_aligned_product_mantissa < aligned_addend_mantissa) begin
+            sum_mantissa = aligned_addend_mantissa - exp_aligned_product_mantissa;
+            sum_sign = operand_c_one.sign;
         end else begin
             sum_mantissa = exp_aligned_product_mantissa + aligned_addend_mantissa;
             sum_sign = product_sign_one;
         end
-        sum_exp = aligned_addend_exp;
-        aligned_sum_mantissa =  {sum_mantissa, 1'b0};
         
-         // Normalize result
-        if (aligned_sum_mantissa[TOTAL_MAN_BITS+1] == 1'b1) begin
+        // Update sum exponent
+        sum_exp = aligned_addend_exp + (aligned_sum_mantissa[TOTAL_MAN_BITS] && (aligned_sum_mantissa != 1'b0));
+        
+        // Shift sum mantissa
+        aligned_sum_mantissa = {sum_mantissa, 1'b0};
+        if (aligned_sum_mantissa[TOTAL_MAN_BITS] == 1'b1) begin
             sum_exp = sum_exp + 1;
             aligned_sum_mantissa = aligned_sum_mantissa >> 1;
-        end
-        else if (aligned_sum_mantissa == 0) begin
-            sum_exp = 0;
         end
         
     end
         
     
-        always @(posedge clk_one)
+        always @(posedge gated_clk)
         begin
             aligned_sum_mantissa_one <= aligned_sum_mantissa;
             final_sign <= sum_sign;
@@ -380,6 +392,7 @@ module bf16_fma_op(
             is_zero_c_two <= is_zero_c_one;
             is_sub_c_two <= is_sub_c_one;
             result_regular_one <= result_regular; 
+            invalid_two <= invalid_one;
             
          
         end
@@ -392,7 +405,7 @@ module bf16_fma_op(
      
         
         
-        always @(lzc_cnt) begin
+        always_comb begin
         final_exp = sum_exp_one; 
         //current_mantissa = aligned_sum_mantissa[TOTAL_MAN_BITS:0];
         lzc_cnt_one = lzc_cnt + 1;
@@ -460,7 +473,7 @@ module bf16_fma_op(
 //                sum_exp = sum_exp + 1;
 //            end
 //        end
-
+        {overflow, underflow, inexact} = {0,0,0};
         // Handle overflow and underflow
         if (final_exp >= 2**EXP_BITS - 1) begin
             //fpcsr[2]
@@ -491,9 +504,10 @@ module bf16_fma_op(
         else begin
             result_o = final_result_regular;
         end
+        if (result_o[14:7] == 8'b0 && result_o[6:0] != 0) begin result_o = 0; end
     end
     
-    always @(posedge clk_one or posedge reset) begin
+    always @(posedge gated_clk or posedge reset) begin
     if(reset) begin
         result <= 0;
         fpcsr <= 0;
@@ -501,7 +515,7 @@ module bf16_fma_op(
     else begin
         
         result <= result_o;
-        fpcsr <= {invalid_one, overflow, underflow, inexact};
+        fpcsr <= {invalid_two, overflow, underflow, inexact};
     
     end
     end

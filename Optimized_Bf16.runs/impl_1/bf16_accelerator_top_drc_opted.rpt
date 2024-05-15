@@ -1,7 +1,7 @@
 Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
-| Date         : Mon May  6 14:05:03 2024
+| Date         : Mon May 13 18:12:36 2024
 | Host         : Ruhma-Rizwan running 64-bit Ubuntu 20.04.6 LTS
 | Command      : report_drc -file bf16_accelerator_top_drc_opted.rpt -pb bf16_accelerator_top_drc_opted.pb -rpx bf16_accelerator_top_drc_opted.rpx
 | Design       : bf16_accelerator_top
@@ -24,14 +24,15 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max violations: <unlimited>
-             Violations found: 3
-+----------+------------------+-----------------------------------------------------+------------+
-| Rule     | Severity         | Description                                         | Violations |
-+----------+------------------+-----------------------------------------------------+------------+
-| NSTD-1   | Critical Warning | Unspecified I/O Standard                            | 1          |
-| UCIO-1   | Critical Warning | Unconstrained Logical Port                          | 1          |
-| CFGBVS-1 | Warning          | Missing CFGBVS and CONFIG_VOLTAGE Design Properties | 1          |
-+----------+------------------+-----------------------------------------------------+------------+
+             Violations found: 6
++-------------+------------------+-------------------------------------------------------------+------------+
+| Rule        | Severity         | Description                                                 | Violations |
++-------------+------------------+-------------------------------------------------------------+------------+
+| NSTD-1      | Critical Warning | Unspecified I/O Standard                                    | 1          |
+| UCIO-1      | Critical Warning | Unconstrained Logical Port                                  | 1          |
+| CFGBVS-1    | Warning          | Missing CFGBVS and CONFIG_VOLTAGE Design Properties         | 1          |
+| PLHOLDVIO-2 | Warning          | Non-Optimal connections which could lead to hold violations | 3          |
++-------------+------------------+-------------------------------------------------------------+------------+
 
 2. REPORT DETAILS
 -----------------
@@ -62,6 +63,61 @@ Neither the CFGBVS nor CONFIG_VOLTAGE voltage property is set in the current_des
  #where value2 is the voltage provided to configuration bank 0
 
 Refer to the device configuration user guide for more information.
+Related violations: <none>
+
+PLHOLDVIO-2#1 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT bf16_fp32_conversion_inst/bf16_to_fp32_inst/fpcsr[3]_i_2 is driving clock pin of 17 cells. This could lead to large hold time violations. Involved cells are:
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/fpcsr_reg[3],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[16],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[17],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[18],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[19],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[20],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[21],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[22],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[23],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[24],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[25],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[26],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[27],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[28],
+bf16_fp32_conversion_inst/bf16_to_fp32_inst/result_reg[29]
+ (the first 15 of 17 listed)
+Related violations: <none>
+
+PLHOLDVIO-2#2 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT bf16_fp32_conversion_inst/fp32_to_bf16_inst/fpcsr[0]_i_2 is driving clock pin of 18 cells. This could lead to large hold time violations. Involved cells are:
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/fpcsr_reg[0],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/fpcsr_reg[3],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[0],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[10],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[11],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[12],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[13],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[14],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[15],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[1],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[2],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[3],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[4],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[5],
+bf16_fp32_conversion_inst/fp32_to_bf16_inst/result_reg[6]
+ (the first 15 of 18 listed)
+Related violations: <none>
+
+PLHOLDVIO-2#3 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT maxmin_module/result[15]_i_2 is driving clock pin of 17 cells. This could lead to large hold time violations. Involved cells are:
+maxmin_module/fpcsr_reg[3], maxmin_module/result_reg[0],
+maxmin_module/result_reg[10], maxmin_module/result_reg[11],
+maxmin_module/result_reg[12], maxmin_module/result_reg[13],
+maxmin_module/result_reg[14], maxmin_module/result_reg[15],
+maxmin_module/result_reg[1], maxmin_module/result_reg[2],
+maxmin_module/result_reg[3], maxmin_module/result_reg[4],
+maxmin_module/result_reg[5], maxmin_module/result_reg[6],
+maxmin_module/result_reg[7] (the first 15 of 17 listed)
 Related violations: <none>
 
 

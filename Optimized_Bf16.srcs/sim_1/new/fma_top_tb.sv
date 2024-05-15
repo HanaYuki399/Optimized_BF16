@@ -83,7 +83,7 @@ module fma_top_tb;
         operand_b = 0;
         operand_c = 0;
         enable = 0;
-        operation = 4'b1000; // Assuming operation code for FMA is 0111
+        operation = 4'b1010; // Assuming operation code for FMA is 0111
 
         // Wait for global reset
         #10;

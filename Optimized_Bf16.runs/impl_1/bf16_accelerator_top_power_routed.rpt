@@ -1,7 +1,7 @@
 Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
-| Date             : Mon May  6 14:05:50 2024
+| Date             : Mon May 13 18:13:24 2024
 | Host             : Ruhma-Rizwan running 64-bit Ubuntu 20.04.6 LTS
 | Command          : report_power -file bf16_accelerator_top_power_routed.rpt -pb bf16_accelerator_top_power_summary_routed.pb -rpx bf16_accelerator_top_power_routed.rpx
 | Design           : bf16_accelerator_top
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.124        |
+| Total On-Chip Power (W)  | 0.119        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.033        |
+| Dynamic (W)              | 0.028        |
 | Device Static (W)        | 0.091        |
 | Effective TJA (C/W)      | 4.6          |
-| Max Ambient (C)          | 84.4         |
-| Junction Temperature (C) | 25.6         |
+| Max Ambient (C)          | 84.5         |
+| Junction Temperature (C) | 25.5         |
 | Confidence Level         | Low          |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -52,16 +52,16 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Clocks         |     0.004 |        3 |       --- |             --- |
-| Slice Logic    |     0.007 |     1256 |       --- |             --- |
-|   LUT as Logic |     0.007 |      811 |     63400 |            1.28 |
-|   CARRY4       |    <0.001 |       44 |     15850 |            0.28 |
-|   Register     |    <0.001 |      267 |    126800 |            0.21 |
-|   Others       |     0.000 |       11 |       --- |             --- |
-| Signals        |     0.009 |     1069 |       --- |             --- |
-| I/O            |     0.013 |      108 |       210 |           51.43 |
+| Clocks         |     0.005 |        3 |       --- |             --- |
+| Slice Logic    |     0.006 |     1233 |       --- |             --- |
+|   LUT as Logic |     0.005 |      817 |     63400 |            1.29 |
+|   CARRY4       |    <0.001 |       40 |     15850 |            0.25 |
+|   Register     |    <0.001 |      275 |    126800 |            0.22 |
+|   Others       |     0.000 |       17 |       --- |             --- |
+| Signals        |     0.007 |     1058 |       --- |             --- |
+| I/O            |     0.010 |      108 |       210 |           51.43 |
 | Static Power   |     0.091 |          |           |                 |
-| Total          |     0.124 |          |           |                 |
+| Total          |     0.119 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -71,11 +71,11 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.035 |       0.020 |      0.015 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.033 |       0.018 |      0.015 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.019 |       0.001 |      0.018 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| Vcco18    |       1.800 |     0.010 |       0.006 |      0.004 |       NA    | Unspecified | NA         |
+| Vcco18    |       1.800 |     0.009 |       0.005 |      0.004 |       NA    | Unspecified | NA         |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -140,10 +140,10 @@ Table of Contents
 +-----------------------------+-----------+
 | Name                        | Power (W) |
 +-----------------------------+-----------+
-| bf16_accelerator_top        |     0.033 |
-|   addmul_module             |     0.016 |
-|   bf16_fp32_conversion_inst |     0.001 |
-|   maxmin_module             |     0.001 |
+| bf16_accelerator_top        |     0.028 |
+|   addmul_module             |     0.015 |
+|   bf16_fp32_conversion_inst |     0.002 |
+|     fp32_to_bf16_inst       |     0.001 |
 +-----------------------------+-----------+
 
 

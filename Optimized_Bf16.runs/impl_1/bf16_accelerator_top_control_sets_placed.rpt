@@ -1,7 +1,7 @@
 Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
-| Date         : Mon May  6 14:05:13 2024
+| Date         : Mon May 13 18:12:46 2024
 | Host         : Ruhma-Rizwan running 64-bit Ubuntu 20.04.6 LTS
 | Command      : report_control_sets -verbose -file bf16_accelerator_top_control_sets_placed.rpt
 | Design       : bf16_accelerator_top
@@ -27,7 +27,7 @@ Table of Contents
 |    Minimum number of control sets                        |    12 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    65 |
+| Unused register locations in slices containing registers |    60 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -40,14 +40,14 @@ Table of Contents
 |       Fanout       | Count |
 +--------------------+-------+
 | Total control sets |    12 |
-| >= 0 to < 4        |     5 |
-| >= 4 to < 6        |     0 |
+| >= 0 to < 4        |     4 |
+| >= 4 to < 6        |     1 |
 | >= 6 to < 8        |     0 |
-| >= 8 to < 10       |     2 |
-| >= 10 to < 12      |     0 |
+| >= 8 to < 10       |     0 |
+| >= 10 to < 12      |     1 |
 | >= 12 to < 14      |     0 |
 | >= 14 to < 16      |     1 |
-| >= 16              |     4 |
+| >= 16              |     5 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,9 +58,9 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |             122 |           63 |
-| No           | No                    | Yes                    |              72 |           32 |
-| No           | Yes                   | No                     |              69 |           32 |
+| No           | No                    | No                     |             135 |           68 |
+| No           | No                    | Yes                    |              72 |           45 |
+| No           | Yes                   | No                     |              61 |           31 |
 | Yes          | No                    | No                     |               0 |            0 |
 | Yes          | No                    | Yes                    |               0 |            0 |
 | Yes          | Yes                   | No                     |               0 |            0 |
@@ -70,21 +70,21 @@ Table of Contents
 4. Detailed Control Set Information
 -----------------------------------
 
-+-----------------------------------------------+---------------+----------------------------------------------+------------------+----------------+--------------+
-|                  Clock Signal                 | Enable Signal |               Set/Reset Signal               | Slice Load Count | Bel Load Count | Bels / Slice |
-+-----------------------------------------------+---------------+----------------------------------------------+------------------+----------------+--------------+
-|  addmul_module/result_special_reg[6]/G0       |               |                                              |                1 |              1 |         1.00 |
-|  addmul_module/underflow0                     |               |                                              |                1 |              1 |         1.00 |
-|  clk_one                                      |               | addmul_module/p_1_in                         |                1 |              1 |         1.00 |
-|  addmul_module/overflow_reg_i_1_n_0           |               |                                              |                1 |              1 |         1.00 |
-|  addmul_module/result_special_reg[15]_i_2_n_0 |               | addmul_module/invalid                        |                1 |              1 |         1.00 |
-|  clk_one                                      |               | addmul_module/aligned_product_mantissa[31]   |                2 |              9 |         4.50 |
-|  clk_one                                      |               | addmul_module/sum_exp_one[8]_i_1_n_0         |                3 |              9 |         3.00 |
-|  addmul_module/result_special_reg[15]_i_2_n_0 |               | addmul_module/result_special_reg[14]_i_2_n_0 |                9 |             14 |         1.56 |
-|  clk_IBUF_BUFG                                |               |                                              |                8 |             17 |         2.12 |
-|  clk_IBUF_BUFG                                |               | reset_IBUF                                   |               16 |             35 |         2.19 |
-|  clk_one                                      |               | reset_IBUF                                   |               32 |             72 |         2.25 |
-|  clk_one                                      |               |                                              |               52 |            102 |         1.96 |
-+-----------------------------------------------+---------------+----------------------------------------------+------------------+----------------+--------------+
++--------------------------------------------------------+---------------+----------------------------------------------+------------------+----------------+--------------+
+|                      Clock Signal                      | Enable Signal |               Set/Reset Signal               | Slice Load Count | Bel Load Count | Bels / Slice |
++--------------------------------------------------------+---------------+----------------------------------------------+------------------+----------------+--------------+
+|  addmul_module/result_special_reg[6]/G0                |               |                                              |                1 |              1 |         1.00 |
+|  addmul_module/result_special_reg[15]_i_2_n_0          |               | addmul_module/invalid                        |                1 |              1 |         1.00 |
+|  bf16_fp32_conversion_inst/fp32_to_bf16_inst/gated_clk |               |                                              |                1 |              1 |         1.00 |
+|  gated_clk                                             |               | addmul_module/p_0_in__0[32]                  |                1 |              1 |         1.00 |
+| ~clk_IBUF_BUFG                                         |               |                                              |                3 |              4 |         1.33 |
+|  gated_clk                                             |               | addmul_module/product_exp_one[9]_i_1_n_0     |                5 |             11 |         2.20 |
+|  addmul_module/result_special_reg[15]_i_2_n_0          |               | addmul_module/result_special_reg[14]_i_2_n_0 |                6 |             14 |         2.33 |
+|  bf16_fp32_conversion_inst/fp32_to_bf16_inst/gated_clk |               | reset_IBUF                                   |               10 |             17 |         1.70 |
+|  bf16_fp32_conversion_inst/bf16_to_fp32_inst/gated_clk |               | reset_IBUF                                   |                8 |             17 |         2.12 |
+|  maxmin_module/gated_clk                               |               |                                              |                6 |             17 |         2.83 |
+|  gated_clk                                             |               | reset_IBUF                                   |               45 |             72 |         1.60 |
+|  gated_clk                                             |               |                                              |               57 |            112 |         1.96 |
++--------------------------------------------------------+---------------+----------------------------------------------+------------------+----------------+--------------+
 
 

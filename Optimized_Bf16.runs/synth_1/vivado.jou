@@ -2,8 +2,8 @@
 # Vivado v2021.2 (64-bit)
 # SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
 # IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
-# Start of session at: Mon May  6 14:03:52 2024
-# Process ID: 240055
+# Start of session at: Mon May 13 18:11:39 2024
+# Process ID: 49730
 # Current directory: /home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.runs/synth_1
 # Command line: vivado -log bf16_accelerator_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source bf16_accelerator_top.tcl
 # Log file: /home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.runs/synth_1/bf16_accelerator_top.vds

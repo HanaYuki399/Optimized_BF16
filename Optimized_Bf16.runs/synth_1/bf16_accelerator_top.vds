@@ -2,8 +2,8 @@
 # Vivado v2021.2 (64-bit)
 # SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
 # IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
-# Start of session at: Mon May  6 14:03:52 2024
-# Process ID: 240055
+# Start of session at: Mon May 13 18:11:39 2024
+# Process ID: 49730
 # Current directory: /home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.runs/synth_1
 # Command line: vivado -log bf16_accelerator_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source bf16_accelerator_top.tcl
 # Log file: /home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.runs/synth_1/bf16_accelerator_top.vds
@@ -18,44 +18,48 @@ Command: synth_design -top bf16_accelerator_top -part xc7a100tcsg324-1
 Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
-WARNING: [Vivado_Tcl 4-1101] Global synthesis options have changed for the design, incremental synthesis will not be run
 INFO: [Device 21-403] Loading part xc7a100tcsg324-1
+WARNING: [Designutils 20-4072] Reference run did not run incremental synthesis because the design is too small; reverting to default synthesis
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 240079
+INFO: [Synth 8-7075] Helper process launched with PID 49778
+WARNING: [Synth 8-1849] concatenation with unsized literal; will interpret as 32 bits [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:472]
+WARNING: [Synth 8-1849] concatenation with unsized literal; will interpret as 32 bits [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:472]
+WARNING: [Synth 8-1849] concatenation with unsized literal; will interpret as 32 bits [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:472]
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2604.141 ; gain = 0.000 ; free physical = 1132 ; free virtual = 6354
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2640.145 ; gain = 0.000 ; free physical = 277 ; free virtual = 5853
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'bf16_accelerator_top' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_accelerator_top.sv:23]
 INFO: [Synth 8-6157] synthesizing module 'bf16_conversion' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_conv_top.sv:23]
 INFO: [Synth 8-6157] synthesizing module 'bf16_to_fp32' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:1]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_sign_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:23]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_exp_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:24]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_man_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:25]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_inf_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:28]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_zero_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:29]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_nan_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:30]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_sign_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:35]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_exp_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:36]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_man_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:37]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_inf_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:40]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_zero_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:41]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_nan_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:42]
 INFO: [Synth 8-6155] done synthesizing module 'bf16_to_fp32' (1#1) [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:1]
 INFO: [Synth 8-6157] synthesizing module 'fp32_to_bf16' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:1]
-WARNING: [Synth 8-6090] variable 'fpcsr' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:46]
-WARNING: [Synth 8-6090] variable 'fpcsr' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:47]
-WARNING: [Synth 8-6090] variable 'fpcsr' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:48]
-WARNING: [Synth 8-6090] variable 'fpcsr' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:49]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_sign_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:23]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_exp_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:24]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_man_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:25]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_inf_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:28]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_zero_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:29]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_nan_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:30]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_subnormal_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:31]
+WARNING: [Synth 8-6090] variable 'fpcsr' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:57]
+WARNING: [Synth 8-6090] variable 'fpcsr' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:58]
+WARNING: [Synth 8-6090] variable 'fpcsr' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:59]
+WARNING: [Synth 8-6090] variable 'fpcsr' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:60]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_sign_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:34]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_exp_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:35]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_man_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:36]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_inf_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:39]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_zero_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:40]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_nan_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:41]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_subnormal_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:42]
 INFO: [Synth 8-6155] done synthesizing module 'fp32_to_bf16' (2#1) [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:1]
 INFO: [Synth 8-6155] done synthesizing module 'bf16_conversion' (3#1) [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_conv_top.sv:23]
 INFO: [Synth 8-6157] synthesizing module 'bf16_minmax' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:22]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_nan_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:71]
-WARNING: [Synth 8-6014] Unused sequential element operand_b_nan_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:72]
-WARNING: [Synth 8-6014] Unused sequential element numerical_comparison_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:88]
-WARNING: [Synth 8-6014] Unused sequential element operand_a_smaller_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:91]
-WARNING: [Synth 8-6014] Unused sequential element select_a_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:94]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_nan_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:82]
+WARNING: [Synth 8-6014] Unused sequential element operand_b_nan_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:83]
+WARNING: [Synth 8-6014] Unused sequential element numerical_comparison_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:99]
+WARNING: [Synth 8-6014] Unused sequential element operand_a_smaller_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:102]
+WARNING: [Synth 8-6014] Unused sequential element select_a_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:105]
 INFO: [Synth 8-6155] done synthesizing module 'bf16_minmax' (4#1) [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:22]
 INFO: [Synth 8-6157] synthesizing module 'bf16_fma_op' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:27]
 INFO: [Synth 8-6157] synthesizing module 'clz' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/lzc.sv:23]
@@ -73,26 +77,20 @@ INFO: [Synth 8-6155] done synthesizing module 'clz__parameterized2' (5#1) [/home
 INFO: [Synth 8-6155] done synthesizing module 'clz__parameterized1' (5#1) [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/lzc.sv:23]
 INFO: [Synth 8-6155] done synthesizing module 'clz__parameterized0' (5#1) [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/lzc.sv:23]
 INFO: [Synth 8-6155] done synthesizing module 'clz' (5#1) [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/lzc.sv:23]
-WARNING: [Synth 8-567] referenced signal 'sum_exp_one' should be on the sensitivity list [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:385]
-WARNING: [Synth 8-567] referenced signal 'aligned_sum_mantissa_one' should be on the sensitivity list [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:385]
-WARNING: [Synth 8-567] referenced signal 'result_regular_one' should be on the sensitivity list [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:385]
-WARNING: [Synth 8-567] referenced signal 'final_sign' should be on the sensitivity list [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:385]
-WARNING: [Synth 8-6014] Unused sequential element is_zero_c_one_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:302]
-WARNING: [Synth 8-6014] Unused sequential element is_sub_c_one_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:303]
-WARNING: [Synth 8-6014] Unused sequential element is_zero_c_two_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:370]
-WARNING: [Synth 8-6014] Unused sequential element is_sub_c_two_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:371]
-WARNING: [Synth 8-6014] Unused sequential element result_regular_one_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:372]
-WARNING: [Synth 8-3936] Found unconnected internal register 'aligned_sum_mantissa_one_reg' and it is trimmed from '34' to '33' bits. [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:364]
-WARNING: [Synth 8-3936] Found unconnected internal register 'aligned_sum_mantissa_reg' and it is trimmed from '34' to '33' bits. [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:348]
-WARNING: [Synth 8-7137] Register enable_reg in module bf16_fma_op has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:128]
-WARNING: [Synth 8-87] always_comb on 'result_special_reg' did not result in combinational logic [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:242]
+WARNING: [Synth 8-6014] Unused sequential element is_zero_c_one_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:321]
+WARNING: [Synth 8-6014] Unused sequential element is_sub_c_one_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:322]
+WARNING: [Synth 8-6014] Unused sequential element is_zero_c_two_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:388]
+WARNING: [Synth 8-6014] Unused sequential element is_sub_c_two_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:389]
+WARNING: [Synth 8-6014] Unused sequential element result_regular_one_reg was removed.  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:390]
+WARNING: [Synth 8-3936] Found unconnected internal register 'aligned_lzc_mantissa_reg' and it is trimmed from '34' to '32' bits. [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:408]
+WARNING: [Synth 8-3936] Found unconnected internal register 'aligned_sum_mantissa_one_reg' and it is trimmed from '34' to '33' bits. [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:382]
+WARNING: [Synth 8-7137] Register enable_reg in module bf16_fma_op has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:159]
+WARNING: [Synth 8-87] always_comb on 'result_special_reg' did not result in combinational logic [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:252]
 INFO: [Synth 8-6155] done synthesizing module 'bf16_fma_op' (6#1) [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:27]
 WARNING: [Synth 8-689] width (32) of port connection 'op_a' does not match port width (16) of module 'bf16_fma_op' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_accelerator_top.sv:72]
 WARNING: [Synth 8-689] width (32) of port connection 'op_c' does not match port width (16) of module 'bf16_fma_op' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_accelerator_top.sv:74]
 WARNING: [Synth 8-689] width (32) of port connection 'result' does not match port width (16) of module 'bf16_fma_op' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_accelerator_top.sv:76]
 INFO: [Synth 8-6155] done synthesizing module 'bf16_accelerator_top' (7#1) [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_accelerator_top.sv:23]
-WARNING: [Synth 8-7129] Port instruction_enable in module fp32_to_bf16 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port instruction_enable in module bf16_to_fp32 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port operand_c[31] in module bf16_accelerator_top is either unconnected or has no load
 WARNING: [Synth 8-7129] Port operand_c[30] in module bf16_accelerator_top is either unconnected or has no load
 WARNING: [Synth 8-7129] Port operand_c[29] in module bf16_accelerator_top is either unconnected or has no load
@@ -110,18 +108,18 @@ WARNING: [Synth 8-7129] Port operand_c[18] in module bf16_accelerator_top is eit
 WARNING: [Synth 8-7129] Port operand_c[17] in module bf16_accelerator_top is either unconnected or has no load
 WARNING: [Synth 8-7129] Port operand_c[16] in module bf16_accelerator_top is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2604.141 ; gain = 0.000 ; free physical = 274 ; free virtual = 5446
+Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2640.145 ; gain = 0.000 ; free physical = 257 ; free virtual = 5039
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2604.141 ; gain = 0.000 ; free physical = 283 ; free virtual = 5456
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2640.145 ; gain = 0.000 ; free physical = 237 ; free virtual = 5033
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2604.141 ; gain = 0.000 ; free physical = 283 ; free virtual = 5456
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2640.145 ; gain = 0.000 ; free physical = 237 ; free virtual = 5033
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2604.141 ; gain = 0.000 ; free physical = 278 ; free virtual = 5450
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2640.145 ; gain = 0.000 ; free physical = 237 ; free virtual = 5033
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -130,60 +128,47 @@ Parsing XDC File [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/constrs_1/n
 Finished Parsing XDC File [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/constrs_1/new/constraints_nexys.xdc]
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2636.043 ; gain = 0.000 ; free physical = 1102 ; free virtual = 6279
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2672.047 ; gain = 0.000 ; free physical = 1054 ; free virtual = 5863
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2636.043 ; gain = 0.000 ; free physical = 1102 ; free virtual = 6279
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2672.047 ; gain = 0.000 ; free physical = 1054 ; free virtual = 5863
+WARNING: [Designutils 20-4072] Reference run did not run incremental synthesis because the design is too small; reverting to default synthesis
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 1182 ; free virtual = 6360
+Finished Constraint Validation : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 1104 ; free virtual = 5917
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a100tcsg324-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 1182 ; free virtual = 6360
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 1104 ; free virtual = 5918
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 1182 ; free virtual = 6360
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 1106 ; free virtual = 5920
 ---------------------------------------------------------------------------------
+WARNING: [Synth 8-327] inferring latch for variable 'clkg_en_reg' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv:22]
+WARNING: [Synth 8-327] inferring latch for variable 'clkg_en_reg' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv:21]
+WARNING: [Synth 8-327] inferring latch for variable 'clkg_en_reg' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv:66]
+WARNING: [Synth 8-327] inferring latch for variable 'clkg_en_reg' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:141]
+WARNING: [Synth 8-327] inferring latch for variable 'result_special_reg' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:252]
 ---------------------------------------------------------------------------------
-Start Preparing Guide Design
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 1089 ; free virtual = 5907
 ---------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Doing Graph Differ : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 1182 ; free virtual = 6361
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Preparing Guide Design : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 1182 ; free virtual = 6361
----------------------------------------------------------------------------------
-WARNING: [Synth 8-327] inferring latch for variable 'result_special_reg' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:242]
-WARNING: [Synth 8-327] inferring latch for variable 'underflow_reg' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:461]
-WARNING: [Synth 8-327] inferring latch for variable 'overflow_reg' [/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv:457]
----------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 1170 ; free virtual = 6351
----------------------------------------------------------------------------------
-
-
-Incremental Synthesis Report Summary:
-
-1. Incremental synthesis run: no
-
-   Reason for not running incremental synthesis : Global synthesis options have changed
-
-
-INFO: [Synth 8-7130] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
 	   3 Input   33 Bit       Adders := 1     
-	   2 Input    9 Bit       Adders := 3     
-	   3 Input    9 Bit       Adders := 5     
+	   3 Input   10 Bit       Adders := 4     
+	   2 Input   10 Bit       Adders := 2     
+	   4 Input   10 Bit       Adders := 1     
+	   2 Input    9 Bit       Adders := 1     
 	   2 Input    7 Bit       Adders := 2     
 	   2 Input    6 Bit       Adders := 1     
 +---XORs : 
@@ -192,19 +177,19 @@ Detailed RTL Component Info :
 	               33 Bit    Registers := 1     
 	               32 Bit    Registers := 2     
 	               16 Bit    Registers := 5     
-	                9 Bit    Registers := 2     
+	               10 Bit    Registers := 2     
 	                8 Bit    Registers := 4     
 	                7 Bit    Registers := 4     
 	                4 Bit    Registers := 5     
-	                1 Bit    Registers := 10    
+	                1 Bit    Registers := 11    
 +---Muxes : 
-	   2 Input   33 Bit        Muxes := 3     
-	   2 Input   32 Bit        Muxes := 13    
-	   3 Input   32 Bit        Muxes := 1     
+	   2 Input   34 Bit        Muxes := 1     
+	   2 Input   33 Bit        Muxes := 1     
+	   2 Input   32 Bit        Muxes := 14    
 	   2 Input   16 Bit        Muxes := 11    
 	   3 Input   15 Bit        Muxes := 1     
-	   3 Input    9 Bit        Muxes := 1     
-	   2 Input    9 Bit        Muxes := 7     
+	   2 Input   10 Bit        Muxes := 7     
+	   2 Input    9 Bit        Muxes := 1     
 	   2 Input    8 Bit        Muxes := 2     
 	   8 Input    8 Bit        Muxes := 2     
 	   2 Input    7 Bit        Muxes := 4     
@@ -216,7 +201,7 @@ Detailed RTL Component Info :
 	   2 Input    3 Bit        Muxes := 8     
 	   2 Input    2 Bit        Muxes := 32    
 	   3 Input    1 Bit        Muxes := 1     
-	   2 Input    1 Bit        Muxes := 12    
+	   2 Input    1 Bit        Muxes := 11    
 	   8 Input    1 Bit        Muxes := 2     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
@@ -251,25 +236,25 @@ WARNING: [Synth 8-7129] Port operand_c[18] in module bf16_accelerator_top is eit
 WARNING: [Synth 8-7129] Port operand_c[17] in module bf16_accelerator_top is either unconnected or has no load
 WARNING: [Synth 8-7129] Port operand_c[16] in module bf16_accelerator_top is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 1148 ; free virtual = 6338
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 1054 ; free virtual = 5883
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 1047 ; free virtual = 6237
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 958 ; free virtual = 5804
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 1007 ; free virtual = 6198
+Finished Timing Optimization : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 905 ; free virtual = 5744
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 1003 ; free virtual = 6193
+Finished Technology Mapping : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 897 ; free virtual = 5736
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -287,37 +272,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 992 ; free virtual = 6194
+Finished IO Insertion : Time (s): cpu = 00:00:19 ; elapsed = 00:00:19 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 911 ; free virtual = 5736
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 992 ; free virtual = 6194
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:19 ; elapsed = 00:00:19 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 911 ; free virtual = 5736
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 992 ; free virtual = 6194
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:19 ; elapsed = 00:00:19 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 911 ; free virtual = 5736
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 992 ; free virtual = 6194
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:19 ; elapsed = 00:00:19 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 911 ; free virtual = 5736
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 992 ; free virtual = 6194
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:19 ; elapsed = 00:00:19 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 911 ; free virtual = 5736
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 992 ; free virtual = 6194
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:19 ; elapsed = 00:00:19 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 911 ; free virtual = 5736
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -334,17 +319,17 @@ Report Cell Usage:
 |      |Cell   |Count |
 +------+-------+------+
 |1     |BUFG   |     2|
-|2     |CARRY4 |    44|
-|3     |LUT1   |     8|
+|2     |CARRY4 |    40|
+|3     |LUT1   |    17|
 |4     |LUT2   |    70|
-|5     |LUT3   |   123|
-|6     |LUT4   |   193|
-|7     |LUT5   |   191|
-|8     |LUT6   |   309|
+|5     |LUT3   |   107|
+|6     |LUT4   |   176|
+|7     |LUT5   |   174|
+|8     |LUT6   |   308|
 |9     |FDCE   |    72|
-|10    |FDRE   |   171|
+|10    |FDRE   |   174|
 |11    |FDSE   |     2|
-|12    |LD     |     2|
+|12    |LD     |     4|
 |13    |LDC    |     7|
 |14    |LDCP   |     1|
 |15    |LDP    |     8|
@@ -352,30 +337,30 @@ Report Cell Usage:
 |17    |OBUF   |    37|
 +------+-------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2636.043 ; gain = 31.902 ; free physical = 992 ; free virtual = 6194
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:19 ; elapsed = 00:00:19 . Memory (MB): peak = 2672.047 ; gain = 31.902 ; free physical = 911 ; free virtual = 5736
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 20 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2636.043 ; gain = 0.000 ; free physical = 1045 ; free virtual = 6248
-Synthesis Optimization Complete : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2636.051 ; gain = 31.902 ; free physical = 1045 ; free virtual = 6248
+Synthesis finished with 0 errors, 0 critical warnings and 22 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 2672.047 ; gain = 0.000 ; free physical = 974 ; free virtual = 5798
+Synthesis Optimization Complete : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2672.055 ; gain = 31.902 ; free physical = 974 ; free virtual = 5798
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2636.051 ; gain = 0.000 ; free physical = 1134 ; free virtual = 6337
-INFO: [Netlist 29-17] Analyzing 62 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:05 ; elapsed = 00:00:00 . Memory (MB): peak = 2672.055 ; gain = 0.000 ; free physical = 1057 ; free virtual = 5888
+INFO: [Netlist 29-17] Analyzing 60 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
-INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2636.051 ; gain = 0.000 ; free physical = 1086 ; free virtual = 6289
+INFO: [Opt 31-138] Pushed 1 inverter(s) to 4 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2672.055 ; gain = 0.000 ; free physical = 1000 ; free virtual = 5833
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 18 instances were transformed.
-  LD => LDCE: 2 instances
+  A total of 20 instances were transformed.
+  LD => LDCE (inverted pins: G): 4 instances
   LDC => LDCE: 7 instances
   LDCP => LDCP (GND, LDCE, LUT3(x2), VCC): 1 instance 
   LDP => LDPE: 8 instances
 
-Synth Design complete, checksum: 261ac8d8
+Synth Design complete, checksum: 6186cbbe
 INFO: [Common 17-83] Releasing license: Synthesis
-39 Infos, 77 Warnings, 0 Critical Warnings and 0 Errors encountered.
+40 Infos, 77 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:26 ; elapsed = 00:00:23 . Memory (MB): peak = 2636.051 ; gain = 32.023 ; free physical = 1290 ; free virtual = 6493
+synth_design: Time (s): cpu = 00:00:26 ; elapsed = 00:00:23 . Memory (MB): peak = 2672.055 ; gain = 32.023 ; free physical = 1211 ; free virtual = 6044
 INFO: [Common 17-1381] The checkpoint '/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.runs/synth_1/bf16_accelerator_top.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file bf16_accelerator_top_utilization_synth.rpt -pb bf16_accelerator_top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Mon May  6 14:04:23 2024...
+INFO: [Common 17-206] Exiting Vivado at Mon May 13 18:12:12 2024...

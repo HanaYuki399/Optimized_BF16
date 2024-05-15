@@ -13,8 +13,19 @@ module fp32_to_bf16(
     logic [22:0] operand_a_man;
     logic operand_a_inf, operand_a_zero, operand_a_nan, operand_a_subnormal;
 
+    
+    logic clkg_en;
+    
+    always_latch  begin
+        if(~clk) 
+            clkg_en = instruction_enable;
+        end
+           
+    assign gated_clk = clk & clkg_en;
+    
+    
     // Only execute logic if enabled for this instruction
-    always @(posedge clk) begin
+    always @(posedge gated_clk) begin
         if (reset) begin
             result = 0;
             fpcsr = 0;
