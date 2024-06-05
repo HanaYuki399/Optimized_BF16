@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="impl_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1715605897">
   <File Type="RCFI_FILE" Name="bf16_accelerator_top.rcfi"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="bf16_accelerator_top_methodology_drc_routed.rpx"/>
-  <File Type="ROUTE-DRC-RPX" Name="bf16_accelerator_top_drc_routed.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="bf16_accelerator_top_methodology_drc_routed.pb"/>
-  <File Type="ROUTE-METHODOLOGY-DRC" Name="bf16_accelerator_top_methodology_drc_routed.rpt"/>
   <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="bf16_accelerator_top_postroute_physopt_bb.dcp"/>
   <File Type="POSTROUTE-PHYSOPT-DCP" Name="bf16_accelerator_top_postroute_physopt.dcp"/>
   <File Type="PHYSOPT-DCP" Name="bf16_accelerator_top_physopt.dcp"/>
@@ -16,26 +12,19 @@
   <File Type="BITSTR-LTX" Name="bf16_accelerator_top.ltx"/>
   <File Type="BITSTR-SYSDEF" Name="bf16_accelerator_top.sysdef"/>
   <File Type="BITSTR-MMI" Name="bf16_accelerator_top.mmi"/>
-  <File Type="ROUTE-BUS-SKEW" Name="bf16_accelerator_top_bus_skew_routed.rpt"/>
   <File Type="BITSTR-BMM" Name="bf16_accelerator_top_bd.bmm"/>
-  <File Type="ROUTE-CLK" Name="bf16_accelerator_top_clock_utilization_routed.rpt"/>
   <File Type="BITSTR-NKY" Name="bf16_accelerator_top.nky"/>
   <File Type="BITSTR-RBT" Name="bf16_accelerator_top.rbt"/>
-  <File Type="ROUTE-BUS-SKEW-RPX" Name="bf16_accelerator_top_bus_skew_routed.rpx"/>
   <File Type="REPORTS-TCL" Name="bf16_accelerator_top_reports.tcl"/>
-  <File Type="ROUTE-TIMING-RPX" Name="bf16_accelerator_top_timing_summary_routed.rpx"/>
   <File Type="OPT-HWDEF" Name="bf16_accelerator_top.hwdef"/>
   <File Type="RBD_FILE" Name="bf16_accelerator_top.rbd"/>
   <File Type="BITSTR-MSK" Name="bf16_accelerator_top.msk"/>
-  <File Type="ROUTE-BUS-SKEW-PB" Name="bf16_accelerator_top_bus_skew_routed.pb"/>
   <File Type="PA-TCL" Name="bf16_accelerator_top.tcl"/>
   <File Type="ROUTE-TIMING-PB" Name="bf16_accelerator_top_timing_summary_routed.pb"/>
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
   <File Type="RDI-RDI" Name="bf16_accelerator_top.vdi"/>
-  <File Type="OPT-DRC" Name="bf16_accelerator_top_drc_opted.rpt"/>
   <File Type="NPI_FILE" Name="bf16_accelerator_top.npi"/>
   <File Type="BG-BIN" Name="bf16_accelerator_top.bin"/>
-  <File Type="ROUTE-TIMINGSUMMARY" Name="bf16_accelerator_top_timing_summary_routed.rpt"/>
   <File Type="CFI_FILE" Name="bf16_accelerator_top.cfi"/>
   <File Type="BG-DRC" Name="bf16_accelerator_top.drc"/>
   <File Type="ROUTE-ERROR-DCP" Name="bf16_accelerator_top_routed_error.dcp"/>
@@ -44,18 +33,7 @@
   <File Type="ROUTE-BLACKBOX-DCP" Name="bf16_accelerator_top_routed_bb.dcp"/>
   <File Type="PDI-FILE" Name="bf16_accelerator_top.pdi"/>
   <File Type="BG-BIT" Name="bf16_accelerator_top.bit"/>
-  <File Type="ROUTE-STATUS-PB" Name="bf16_accelerator_top_route_status.pb"/>
-  <File Type="PLACE-IO" Name="bf16_accelerator_top_io_placed.rpt"/>
-  <File Type="PLACE-UTIL" Name="bf16_accelerator_top_utilization_placed.rpt"/>
-  <File Type="PLACE-UTIL-PB" Name="bf16_accelerator_top_utilization_placed.pb"/>
-  <File Type="PLACE-CTRL" Name="bf16_accelerator_top_control_sets_placed.rpt"/>
   <File Type="PLACE-PRE-SIMILARITY" Name="bf16_accelerator_top_incremental_reuse_pre_placed.rpt"/>
-  <File Type="ROUTE-DRC" Name="bf16_accelerator_top_drc_routed.rpt"/>
-  <File Type="ROUTE-DRC-PB" Name="bf16_accelerator_top_drc_routed.pb"/>
-  <File Type="ROUTE-PWR" Name="bf16_accelerator_top_power_routed.rpt"/>
-  <File Type="ROUTE-PWR-SUM" Name="bf16_accelerator_top_power_summary_routed.pb"/>
-  <File Type="ROUTE-PWR-RPX" Name="bf16_accelerator_top_power_routed.rpx"/>
-  <File Type="ROUTE-STATUS" Name="bf16_accelerator_top_route_status.rpt"/>
   <File Type="ROUTE-DCP" Name="bf16_accelerator_top_routed.dcp"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>

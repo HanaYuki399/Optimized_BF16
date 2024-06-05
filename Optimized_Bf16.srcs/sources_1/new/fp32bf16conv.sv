@@ -101,7 +101,7 @@ module fp32_to_bf16(
         end
 
         // Set inexact if any LSBs are truncated or guard, round, sticky bits are set
-        fpcsr[0] <= guard_bit | rounding_bit | sticky_bit;
+        fpcsr[0] = guard_bit | rounding_bit | sticky_bit;
 
         convert_to_bf16 = {sign, new_exp[7:0], new_man[6:0]}; // Assemble BF16 number
     endfunction
