@@ -40,7 +40,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module bf16_minmax(
+module bf16_minmax_RV(
     input logic clk,
     input logic reset,
     input logic enable,
@@ -84,8 +84,8 @@ module bf16_minmax(
     assign gated_clk = clk & clkg_en;
     
     // Handshake signals
-    assign in_ready_o = out_ready_i;
-    assign out_valid_o = valid_pipeline && in_valid_i;
+    assign in_ready_o = out_ready_i | ~valid_pipeline;
+    assign out_valid_o = valid_pipeline ;
     
     always @(posedge gated_clk or negedge reset) begin
         if (!reset) begin
