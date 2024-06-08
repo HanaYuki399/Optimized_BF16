@@ -63,17 +63,17 @@ module tb_bf16_minmax_RV;
     initial begin
         // Initialize Inputs
         clk = 0;
-        reset = 1;
+        reset = 0;
         enable = 0;
         operand_a = 0;
         operand_b = 0;
         operation = 0;
         in_valid_i = 0;
-        out_ready_i = 0;
+        out_ready_i = 1;
 
         // Reset the design
         #20;
-        reset = 0;
+        reset = 1;
         enable = 1;
 
         // Test 1: Min operation with valid operands
@@ -85,7 +85,7 @@ module tb_bf16_minmax_RV;
         out_ready_i = 1;
 
         #10;
-        in_valid_i = 0; // Lower the valid signal after one cycle
+        //in_valid_i = 0; // Lower the valid signal after one cycle
 
         // Wait for the output to be valid
         wait(out_valid_o);
