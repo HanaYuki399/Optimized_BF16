@@ -16,7 +16,7 @@ module tb_bf16_fma;
     wire [3:0] fpcsr;
     
     // Instantiate the Unit Under Test (UUT)
-    bf16_fma2 uut (
+    bf16_fma_op uut (
         .clk(clk),
         .reset(reset),
         .enable(enable),

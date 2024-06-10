@@ -42,7 +42,7 @@ module tb_bf16_minmax_RV;
     wire [3:0] fpcsr;
 
     // Instantiate the Unit Under Test (UUT)
-    bf16_minmax_RV uut (
+    bf16_minmax uut (
         .clk(clk),
         .reset(reset),
         .enable(enable),
@@ -62,8 +62,8 @@ module tb_bf16_minmax_RV;
 
     initial begin
         // Initialize Inputs
-        clk = 0;
-        reset = 1;
+        clk = 1;
+        reset = 0;
         enable = 0;
         operand_a = 0;
         operand_b = 0;
@@ -73,11 +73,11 @@ module tb_bf16_minmax_RV;
 
         // Reset the design
         #20;
-        reset = 0;
+        reset = 1;
         enable = 1;
 
         // Test 1: Min operation with valid operands
-        #10;
+        
         operand_a = 16'h3C00; // 1.5 in BF16
         operand_b = 16'h4000; // 2.0 in BF16
         operation = 4'b0011; // Min operation
@@ -88,7 +88,7 @@ module tb_bf16_minmax_RV;
         in_valid_i = 0; // Lower the valid signal after one cycle
 
         // Wait for the output to be valid
-        wait(out_valid_o);
+        //wait(out_valid_o);
 
         // Check the result
         if (result == 16'h3C00) // Expect 1.5 as min
@@ -108,7 +108,7 @@ module tb_bf16_minmax_RV;
         in_valid_i = 0; // Lower the valid signal after one cycle
 
         // Wait for the output to be valid
-        wait(out_valid_o);
+        //wait(out_valid_o);
 
         // Check the result
         if (result == 16'h4000) // Expect 2.0 as max
@@ -128,7 +128,7 @@ module tb_bf16_minmax_RV;
         in_valid_i = 0; // Lower the valid signal after one cycle
 
         // Wait for the output to be valid
-        wait(out_valid_o);
+        //wait(out_valid_o);
 
         // Check the result
         if (result == 16'h4000) // Expect 2.0 since A is NaN
@@ -145,7 +145,7 @@ module tb_bf16_minmax_RV;
         out_ready_i = 0; // Out ready is low, should stall the output
 
         #10;
-        in_valid_i = 0; // Lower the valid signal after one cycle
+        in_valid_i = 1; // Lower the valid signal after one cycle
         out_ready_i = 1; // Now make the output ready
 
         // Wait for the output to be valid
@@ -156,6 +156,8 @@ module tb_bf16_minmax_RV;
             $display("Test 4 Passed");
         else
             $display("Test 4 Failed: result = %h", result);
+            
+        
 
         $finish;
     end
