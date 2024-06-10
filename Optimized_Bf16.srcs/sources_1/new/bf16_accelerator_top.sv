@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module bf16_accelerator_top_RV(
+module bf16_accelerator_top(
     input logic clk,
     input logic reset,
     input logic enable, // Enable signal for the accelerator
@@ -59,7 +59,7 @@ bf16_conversion bf16_fp32_conversion_inst (
 );
 
 // Instantiate the max/min module
-bf16_minmax_RV maxmin_module (
+bf16_minmax maxmin_module (
     .clk(clk),
     .reset(reset),
     .enable(maxmin_enable),

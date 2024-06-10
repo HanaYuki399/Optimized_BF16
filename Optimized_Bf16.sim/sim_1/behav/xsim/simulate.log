@@ -1,0 +1,7 @@
+Time resolution is 1 ps
+Stopped at time : 0 fs : File "/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_minmax_readyValid.v" Line 88
+Test 1 Passed
+Test 2 Passed
+Test 3 Passed
+Test 4 Passed
+$finish called at time : 100 ns : File "/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sim_1/new/Minmax_RV_tb.sv" Line 160

@@ -40,7 +40,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module bf16_minmax_RV(
+module bf16_minmax(
     input logic clk,
     input logic reset,
     input logic enable,
