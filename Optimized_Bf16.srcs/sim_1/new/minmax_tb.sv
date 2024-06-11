@@ -79,12 +79,12 @@ module tb_bf16_minmax;
     initial begin
         // Initialize Inputs
         clk = 1;
-        reset = 0;
+        reset = 1;
         operand_a = 0;
         operand_b = 0;
         operand_c = 0;
         operation = 0;
-        enable = 1;
+        enable = 0;
 
         // Wait for global reset
         #10;
@@ -93,7 +93,7 @@ module tb_bf16_minmax;
         
 
         // Test case 1: Normal numbers
-        operand_a = 16'h4000; // 2.0
+        operand_a = 16'h8000; // 2.0
         operand_b = 16'h3C00; // 1.0
         operation = 4'b0010; // min
         #10;

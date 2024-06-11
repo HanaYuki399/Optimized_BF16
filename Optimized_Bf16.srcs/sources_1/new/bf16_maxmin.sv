@@ -38,6 +38,8 @@ module bf16_minmax(
     logic numerical_comparison;
     logic operand_a_smaller;
     logic select_a;
+    logic [15:0] next_result;
+    logic [3:0] next_fpcsr;
     
     assign operand_a_sign = operand_a[15];
     assign operand_a_exp = operand_a[14:7];
@@ -70,13 +72,14 @@ module bf16_minmax(
     
     
     
-    always @(posedge gated_clk ) begin
+    
+ always @(posedge gated_clk ) begin
         // Reset FPCSR flags
         if (reset) begin
             result = 16'b0;
             fpcsr = 4'b0000;
         end
-        else if (enable) begin
+        else begin
         
          // Check for NaN
         operand_a_nan = (operand_a_exp == 8'hFF) && (operand_a_man != 0);
@@ -95,7 +98,7 @@ module bf16_minmax(
             result = operand_a;
             fpcsr[3] = 1; // Invalid flag set
         end
-        end
+        
         numerical_comparison = operand_a < operand_b;
 
         // Determine which operand is smaller or larger
@@ -113,6 +116,6 @@ module bf16_minmax(
             // Select B for min or max based on comparison
             result = operand_b;
         end
-        
+        end
     end
 endmodule

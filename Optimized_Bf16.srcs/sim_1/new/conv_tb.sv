@@ -54,9 +54,9 @@ module tb_combined_conversion();
     initial begin
         // Initialize Inputs
         clk = 1;
-        reset = 0;
+        reset = 1;
         operand_a = 0;
-        enable = 1'b1;
+        enable = 1'b0;
         operation = 4'b0001;
         #10
         

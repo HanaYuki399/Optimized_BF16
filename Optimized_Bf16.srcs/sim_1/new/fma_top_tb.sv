@@ -83,14 +83,14 @@ module fma_top_tb;
         operand_b = 0;
         operand_c = 0;
         enable = 0;
-        operation = 4'b1010; // Assuming operation code for FMA is 0111
+        operation = 4'b0011; // Assuming operation code for FMA is 0111
 
         // Wait for global reset
         #10;
 
         reset = 0;
         enable = 1;
-        #10
+        
 
         // Test case 1: Normal operation
         operand_a = 16'h3f80; // 1.0
@@ -109,18 +109,18 @@ module fma_top_tb;
         
         // Test case 2: Underflow
         operand_a = 16'h0001; // Smallest subnormal number
-        operand_b = 16'h0001; // Smallest subnormal number
+        operand_b = 16'h0002; // Smallest subnormal number
         operand_c = 16'h0001; // Smallest subnormal number
         #10; // Result should be underflow to zero
 
         // Test case 3: Overflow
         operand_a = 16'h3C00; // Infinity
-        operand_b = 16'h3C00; // 1.0
+        operand_b = 16'h3C01; // 1.0
         operand_c = 16'h4200; // 3.0
         #10; // Result should be infinity (0x7F80)
 
         // Test case 4: Zero multiplication
-        operand_a = 16'h0000; // 0.0
+        operand_a = 16'h8000; // 0.0
         operand_b = 16'h4000; // 2.0
         operand_c = 16'h4200; // 3.0
         #10; // Result should be 3.0 (0x4200)

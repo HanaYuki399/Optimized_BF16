@@ -1,1 +1,2 @@
 Breakpoint File Version 1.0
+123,true,"/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sim_1/new/fma_top_tb.sv"
