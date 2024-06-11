@@ -84,7 +84,7 @@ module bf16_minmax_RV(
     assign gated_clk = clk & clkg_en;
     
     // Handshake signals
-    assign in_ready_o = out_ready_i | ~valid_pipeline;
+    assign in_ready_o = in_valid_i;
     assign out_valid_o = valid_pipeline ;
     
     always @(posedge gated_clk or negedge reset) begin
@@ -92,7 +92,7 @@ module bf16_minmax_RV(
             result <= 16'b0;
             fpcsr <= 4'b0000;
             valid_pipeline <= 0;
-        end else if (enable && in_valid_i && in_ready_o) begin
+        end else if (enable && in_valid_i && out_ready_i) begin
             // Check for NaN
             operand_a_nan = (operand_a_exp == 8'hFF) && (operand_a_man != 0);
             operand_b_nan = (operand_b_exp == 8'hFF) && (operand_b_man != 0);

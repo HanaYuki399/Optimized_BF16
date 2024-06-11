@@ -1,4 +1,4 @@
-Running: xsim.dir/tb_bf16_minmax_RV_behav/xsimk -simmode gui -wdb tb_bf16_minmax_RV_behav.wdb -simrunnum 0 -socket 53033
+Running: xsim.dir/tb_bf16_minmax_RV_behav/xsimk -simmode gui -wdb tb_bf16_minmax_RV_behav.wdb -simrunnum 0 -socket 50337
 Design successfully loaded
 Design Loading Memory Usage: 31672 KB (Peak: 31792 KB)
-Design Loading CPU Usage: 10 ms
+Design Loading CPU Usage: 20 ms

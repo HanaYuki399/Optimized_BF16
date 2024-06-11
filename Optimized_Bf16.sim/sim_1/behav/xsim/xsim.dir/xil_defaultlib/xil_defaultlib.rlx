@@ -19,7 +19,7 @@ Oct 19 2021
 /home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_conv_top.sv,1714475425,systemVerilog,,/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv,,bf16_conversion,,uvm,,,,,,
 /home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_fma.sv,1715777153,systemVerilog,,/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv,,bf16_fma_op,,uvm,,,,,,
 /home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_maxmin.sv,1718022756,systemVerilog,,/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv,,bf16_minmax,,uvm,,,,,,
-/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_minmax_readyValid.v,1717760152,systemVerilog,,/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sim_1/new/Minmax_RV_tb.sv,,bf16_minmax_RV,,uvm,,,,,,
+/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16_minmax_readyValid.v,1718090861,systemVerilog,,/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sim_1/new/Minmax_RV_tb.sv,,bf16_minmax_RV,,uvm,,,,,,
 /home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/bf16fp32conv.sv,1715603881,systemVerilog,,/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv,,bf16_to_fp32,,uvm,,,,,,
 /home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/fp32bf16conv.sv,1717361122,systemVerilog,,/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/lzc.sv,,fp32_to_bf16,,uvm,,,,,,
 /home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sources_1/new/lzc.sv,1714992280,systemVerilog,,/home/xe-lpt-64/Optimized_Bf16/Optimized_Bf16.srcs/sim_1/new/minmax_tb.sv,,clz,,uvm,,,,,,
