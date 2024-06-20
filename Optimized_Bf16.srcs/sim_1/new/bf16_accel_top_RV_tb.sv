@@ -42,7 +42,7 @@ module tb_bf16_accelerator_top;
     wire out_valid_o;
 
     // Instantiate the Unit Under Test (UUT)
-    bf16_accelerator_top_RV uut (
+    bf16_accelerator_top uut (
         .clk(clk),
         .reset(reset),
         .enable(enable), 
@@ -68,19 +68,20 @@ module tb_bf16_accelerator_top;
         operand_a = 0;
         operand_b = 0;
         operand_c = 0;
-        operation = 0;
+        //operation = 0;
         enable = 1;
         in_valid_i = 0;
         out_ready_i = 0;
 
         // Apply reset
-        @(posedge clk);
+        #10
         reset = 1;
-        @(posedge clk);
-        reset = 0;
+        #10
+        reset = 1;
+        
 
         // Wait for global reset
-        @(posedge clk);
+        #10
         enable = 1;
         in_valid_i = 1;
         out_ready_i = 1;
@@ -88,45 +89,47 @@ module tb_bf16_accelerator_top;
         // Test case 1: Normal numbers
         operand_a = 32'h4000; // 2.0 in FP32
         operand_b = 16'h3C00; // 1.0 in BF16
-        operation = 4'b0010; // min
-        @(posedge clk);
-        
-        operand_a = 32'h4000; // 2.0 in FP32
+        operation = 4'b0111; // min
+        #10
+        in_valid_i = 1;
+        out_ready_i = 1;
+        operand_a = 32'h78701100; // 2.0 in FP32
         operand_b = 16'h3f90; // 1.0 in BF16
         operand_c = 32'h40a00000; // 5.0 in FP32
-        operation = 4'b0010; // FMA
-        @(posedge clk);
-        
-        operand_a = 32'h4000; // 2.0 in FP32
+        operation = 4'b0000; // FMA
+        #10
+        operation = 4'b0001;
+        in_valid_i = 1;
+        operand_a = 32'h10004000; // 2.0 in FP32
         operand_b = 16'h4080; // 4.0 in BF16
         operand_c = 32'h40c00000; // 6.0 in FP32
-        operation = 4'b0011; // FMA
-        @(posedge clk);
+        operation = 4'b0001; // FMA
+        #10
 
         // Test case 2: Special values (Infinity and NaN)
-        operand_a = 32'h7F80; // Infinity in FP32
-        operand_b = 16'h7E00; // NaN in BF16
-        operation = 4'b0011; // max
-        @(posedge clk);
+        operand_a = 32'h7F803810; // Infinity in FP32
+        operand_b = 16'h7000; // NaN in BF16
+        operation = 4'b0111; // max
+        #10
 
         // Test case 3: Subnormal numbers
-        operand_a = 32'h0380; // Small subnormal in FP32
-        operand_b = 16'h0400; // Slightly larger subnormal in BF16
-        operation = 4'b0011; // min
-        @(posedge clk);
+        operand_a = 32'h33800010; // Small subnormal in FP32
+        operand_b = 16'h3400; // Slightly larger subnormal in BF16
+        operation = 4'b0010; // min
+        #10
 
         // Test case 4: Equal operands
         operand_a = 32'h3555; // Some FP32 number
         operand_b = 16'h3555; // Same number in BF16
-        operation = 4'b0011; // max
-        @(posedge clk);
+        operation = 4'b0010; // max
+        #10
 
         // Test case 5: Overflow and underflow
         operand_a = 32'h7F7F; // Largest FP32 number
         operand_b = 16'h0080; // Smallest BF16 number
-        operation = 4'b0011; // max
-        @(posedge clk);
-
+        operation = 4'b0010; // max
+        #10
+    #100
         // Finish the simulation
         $finish;
     end

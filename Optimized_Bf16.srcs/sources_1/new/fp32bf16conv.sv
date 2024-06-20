@@ -3,6 +3,12 @@ module fp32_to_bf16(
     input logic reset,
     input logic instruction_enable, // Enable signal for specific instruction type
     input logic [31:0] operand_a,   // FP32 input
+     // Input Handshake
+    input  logic                     in_valid_i,
+    output logic                     in_ready_o,
+    // Output handshake
+    output logic                     out_valid_o,
+    input  logic                     out_ready_i,
     output logic [15:0] result,     // BF16 output
     output logic [3:0] fpcsr        // Floating Point Control and Status Register
 );
@@ -15,21 +21,29 @@ module fp32_to_bf16(
 
     
     logic clkg_en;
+    logic valid_pipeline;
     
-    always_latch  begin
-        if(~clk) 
-            clkg_en = instruction_enable;
-        end
+//    always_latch  begin
+//        if(~clk) 
+//            clkg_en = instruction_enable;
+//        end
            
-    assign gated_clk = clk & clkg_en;
+//    assign gated_clk = clk & clkg_en;
+    assign gated_clk = clk && instruction_enable;
+
+    //assign valid_pipeline = (reset && instruction_enable && in_valid_i && out_ready_i) ? 1 : 0;
     
+    // Handshake signals
+    assign in_ready_o = in_valid_i;
+    assign out_valid_o = valid_pipeline ;
     
     // Only execute logic if enabled for this instruction
-    always @(posedge gated_clk) begin
-        if (reset) begin
+    always @(posedge gated_clk or negedge reset) begin
+        if (!reset ) begin
             result = 0;
             fpcsr = 0;
-        end else begin
+            valid_pipeline = 0;
+        end else if (in_valid_i && out_ready_i) begin
             // Decompose operand
             operand_a_sign = operand_a[31];
             operand_a_exp = {1'b0, operand_a[30:23]};
@@ -58,6 +72,10 @@ module fp32_to_bf16(
             fpcsr[2] = 0;             // Overflow flag
             fpcsr[1] = 0;             // Underflow flag
             fpcsr[0] = 0;             // Inexact flag
+            valid_pipeline = 1;
+        end else begin
+            valid_pipeline = 0;
+        
         end
     end
 

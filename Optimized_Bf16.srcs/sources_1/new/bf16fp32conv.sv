@@ -3,6 +3,12 @@ module bf16_to_fp32(
     input logic reset,
     input logic instruction_enable, // Enable signal for specific instruction type
     input logic [15:0] operand_a,   // BF16 input
+    // Input Handshake
+    input  logic                     in_valid_i,
+    output logic                     in_ready_o,
+    // Output handshake
+    output logic                     out_valid_o,
+    input  logic                     out_ready_i,
     output logic [31:0] result,     // FP32 output
     output logic [3:0] fpcsr        // Floating Point Control and Status Register
 );
@@ -14,23 +20,33 @@ module bf16_to_fp32(
     logic operand_a_inf, operand_a_zero, operand_a_nan;
     logic gated_clk;
 
+
     
     logic clkg_en;
+    logic valid_pipeline;
     
-    always_latch  begin
-        if(~clk) 
-            clkg_en = instruction_enable;
-        end
+//    always_latch  begin
+//        if(~clk) 
+//            clkg_en = instruction_enable;
+//        end
            
-    assign gated_clk = clk & clkg_en;
+//    assign gated_clk = clk & clkg_en;
+
+    assign gated_clk = clk && instruction_enable;
+    
+     // Handshake signals
+    assign in_ready_o = in_valid_i;
+    assign out_valid_o = valid_pipeline;
+    //assign valid_pipeline = (reset && instruction_enable && in_valid_i && out_ready_i) ? 1 : 0;
     
     // Only execute logic if enabled for this instruction
     
-    always @(posedge gated_clk) begin
-        if (reset) begin
+    always @(posedge gated_clk or negedge reset) begin
+        if (!reset) begin
             result = 0;
             fpcsr = 0;
-        end else begin
+            valid_pipeline = 0;
+        end else if (in_valid_i && out_ready_i) begin
             // Decompose operand
             operand_a_sign = operand_a[15];
             operand_a_exp = operand_a[14:7];
@@ -57,6 +73,9 @@ module bf16_to_fp32(
             fpcsr[2] = 0;             // Overflow flag
             fpcsr[1] = 0;             // Underflow flag
             fpcsr[0] = 0;             // Inexact flag
+            valid_pipeline = 1;
+        end else begin
+            valid_pipeline = 0;
         end
     end
 
@@ -74,3 +93,5 @@ module bf16_to_fp32(
         convert_to_fp32 = {sign, new_exp, new_man}; // Assemble FP32 number
     endfunction
 endmodule
+    
+  

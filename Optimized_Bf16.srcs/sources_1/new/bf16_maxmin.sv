@@ -76,39 +76,43 @@ module bf16_minmax(
     logic clkg_en;
     logic valid_pipeline;
 
-    always_latch begin
-        if (~clk) 
-            clkg_en = enable;
-    end
+//    always_latch begin
+//        if (~clk) 
+//            clkg_en = enable;
+//    end
+//   // assign clkg_en = ~clk ? enable : clkg_en;
+
+//Clock gating this way as the enable is being sent from the upper modules after selecting the instructions and cannot sample it on the negedge
     
-    assign gated_clk = clk & clkg_en;
+//    assign gated_clk = clk & clkg_en;
+    assign gated_clk = clk && enable;
     
     // Handshake signals
     assign in_ready_o = in_valid_i;
     assign out_valid_o = valid_pipeline ;
     
-    always @(posedge gated_clk or negedge reset) begin
+    always_ff @(posedge gated_clk or negedge reset) begin
         if (!reset) begin
-            result <= 16'b0;
-            fpcsr <= 4'b0000;
-            valid_pipeline <= 0;
-        end else if (enable && in_valid_i && out_ready_i) begin
+            result = 16'b0;
+            fpcsr = 4'b0000;
+            valid_pipeline = 0;
+        end else if (in_valid_i && out_ready_i) begin
             // Check for NaN
             operand_a_nan = (operand_a_exp == 8'hFF) && (operand_a_man != 0);
             operand_b_nan = (operand_b_exp == 8'hFF) && (operand_b_man != 0);
     
             if (operand_a_nan && operand_b_nan) begin
                 // Both operands are NaN, return canonical NaN
-                result <= 16'h7FC0; // Canonical NaN in BF16
-                fpcsr[3] <= 1; // Invalid flag set
+                result = 16'h7FC0; // Canonical NaN in BF16
+                fpcsr[3] = 1; // Invalid flag set
             end else if (operand_a_nan) begin
                 // Operand A is NaN, return B
-                result <= operand_b;
-                fpcsr[3] <= 1; // Invalid flag set
+                result = operand_b;
+                fpcsr[3] = 1; // Invalid flag set
             end else if (operand_b_nan) begin
                 // Operand B is NaN, return A
-                result <= operand_a;
-                fpcsr[3] <= 1; // Invalid flag set
+                result = operand_a;
+                fpcsr[3] = 1; // Invalid flag set
             end else begin
                 numerical_comparison = operand_a < operand_b;
                 // Determine which operand is smaller or larger
@@ -117,15 +121,15 @@ module bf16_minmax(
                 select_a = (operation == 4'b0011) ? operand_a_smaller : !operand_a_smaller;
                 if (select_a) begin
                     // Select A for min or max based on comparison
-                    result <= operand_a;
+                    result = operand_a;
                 end else begin
                     // Select B for min or max based on comparison
-                    result <= operand_b;
+                    result = operand_b;
                 end
             end
-            valid_pipeline <= 1;
+            valid_pipeline = 1;
         end else begin
-            valid_pipeline <= 0;
+            valid_pipeline = 0;
         end
     end
 endmodule
