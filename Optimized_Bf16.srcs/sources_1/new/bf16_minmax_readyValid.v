@@ -76,23 +76,27 @@ module bf16_minmax_RV(
     logic clkg_en;
     logic valid_pipeline;
 
-    always_latch begin
-        if (~clk) 
-            clkg_en = enable;
-    end
+//    always_latch begin
+//        if (~clk) 
+//            clkg_en = enable;
+//    end
+//   // assign clkg_en = ~clk ? enable : clkg_en;
+
+//Clock gating this way as the enable is being sent from the upper modules after selecting the instructions and cannot sample it on the negedge
     
-    assign gated_clk = clk & clkg_en;
+//    assign gated_clk = clk & clkg_en;
+    assign gated_clk = clk && enable;
     
     // Handshake signals
     assign in_ready_o = in_valid_i;
     assign out_valid_o = valid_pipeline ;
     
-    always @(posedge gated_clk or negedge reset) begin
+    always_ff @(posedge gated_clk or negedge reset) begin
         if (!reset) begin
             result = 16'b0;
             fpcsr = 4'b0000;
             valid_pipeline = 0;
-        end else if (enable && in_valid_i && out_ready_i) begin
+        end else if (in_valid_i && out_ready_i) begin
             // Check for NaN
             operand_a_nan = (operand_a_exp == 8'hFF) && (operand_a_man != 0);
             operand_b_nan = (operand_b_exp == 8'hFF) && (operand_b_man != 0);
