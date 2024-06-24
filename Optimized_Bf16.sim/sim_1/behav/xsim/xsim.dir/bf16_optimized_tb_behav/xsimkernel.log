@@ -1,4 +1,4 @@
-Running: xsim.dir/bf16_optimized_tb_behav/xsimk -simmode gui -wdb bf16_optimized_tb_behav.wdb -simrunnum 0 -socket 55247
+Running: xsim.dir/bf16_optimized_tb_behav/xsimk -simmode gui -wdb bf16_optimized_tb_behav.wdb -simrunnum 0 -socket 34817
 Design successfully loaded
-Design Loading Memory Usage: 31764 KB (Peak: 31820 KB)
-Design Loading CPU Usage: 20 ms
+Design Loading Memory Usage: 31760 KB (Peak: 31816 KB)
+Design Loading CPU Usage: 0 ms

@@ -33,12 +33,7 @@ module bf16_fma_op(
     input logic [15:0] op_b,
     input logic [15:0] op_c,
     input logic [3:0] oper, // Operation code
-    // Input Handshake
-    input  logic                     in_valid_i,
-    output logic                     in_ready_o,
-    // Output handshake
-    output logic                     out_valid_o,
-    input  logic                     out_ready_i,
+    
     //result signals
     output logic [31:0] result,
     output logic [3:0] fpcsr
@@ -125,10 +120,7 @@ module bf16_fma_op(
     logic inexact;
     logic clk_one;
     
-    logic valid_pipeline;
-    logic valid_pipeline_one;
-    logic valid_pipeline_two;
-    logic valid_pipeline_three;
+
     
     
     
@@ -158,25 +150,24 @@ module bf16_fma_op(
 
     assign gated_clk = clk && enable;
     
-    assign in_ready_o = valid_pipeline_three;
-    assign out_valid_o = valid_pipeline_three;
     
-    always @(posedge gated_clk or negedge reset) begin
     
-    if(!reset) begin
+    always @(posedge gated_clk or posedge reset) begin
+    
+    if(reset) begin
         oper_a <= 0;
         oper_b <= 0;
         oper_c <= 0;
         oper_one <= 0; 
-        valid_pipeline <= 0;
+       
     end
-    else if (in_valid_i) begin
+    else  begin
         oper_a <= op_a;
         oper_b <= op_b;
         oper_c <= op_c;
         oper_one <= oper;
         enable <= en;
-        valid_pipeline <= in_valid_i;
+        
 //    
 //        operand_a = op_a;
 //        operand_b = op_b;
@@ -345,7 +336,7 @@ module bf16_fma_op(
         is_zero_c_one <= is_zero_c;
         is_sub_c_one <= is_sub_c; 
         invalid_one <= invalid;
-        valid_pipeline_one <= valid_pipeline;
+       
         
     
     end
@@ -414,7 +405,7 @@ module bf16_fma_op(
             is_sub_c_two <= is_sub_c_one;
             result_regular_one <= result_regular; 
             invalid_two <= invalid_one;
-            valid_pipeline_two <= valid_pipeline_one;
+           
             
          
         end
@@ -536,7 +527,7 @@ module bf16_fma_op(
     end
     
     always @(posedge gated_clk or posedge reset) begin
-    if(!reset) begin
+    if(reset) begin
         result <= 0;
         fpcsr <= 0;
     end
@@ -544,7 +535,7 @@ module bf16_fma_op(
         
         result <= result_o;
         fpcsr <= {invalid_two, overflow, underflow, inexact};
-        valid_pipeline_three <= valid_pipeline_two;
+
     
     end
     end

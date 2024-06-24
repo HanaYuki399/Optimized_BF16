@@ -34,7 +34,7 @@ module bf16_optimized_tb;
     reg [3:0] operation;
 
     // Outputs
-    wire [15:0] result;
+    wire [31:0] result;
     wire [3:0] fpcsr;
     
     // Instantiate the Unit Under Test (UUT)
@@ -74,13 +74,13 @@ module bf16_optimized_tb;
         operand_a = 16'h3f80; // 1.0
         operand_b = 16'h4000; // 2.0
         operand_c = 16'h40a0; // 5.0
-        #10; // Result should be 1.0*2.0 + 5.0 = 7.0 (0x40e0)
+        #30; // Result should be 1.0*2.0 + 5.0 = 7.0 (0x40e0)
 
         //operation = 4'b1000;
         operand_a = 16'h3f80; // 1.0
         operand_b = 16'h4000; // 2.0
         operand_c = 16'h41a0; // 5.0
-        #10; // Result should be 1.0*2.0 + 5.0 = 7.0 (0x40e0)
+        #30; // Result should be 1.0*2.0 + 5.0 = 7.0 (0x40e0)
         
 
         
@@ -89,13 +89,13 @@ module bf16_optimized_tb;
         operand_a = 16'h0001; // Smallest subnormal number
         operand_b = 16'h0001; // Smallest subnormal number
         operand_c = 16'h0001; // Smallest subnormal number
-        #10; // Result should be underflow to zero
+        #30; // Result should be underflow to zero
 
         // Test case 3: Overflow
         operand_a = 16'h3C00; // Infinity
         operand_b = 16'h3C00; // 1.0
         operand_c = 16'h4200; // 3.0
-        #10; // Result should be infinity (0x7F80)
+        #30; // Result should be infinity (0x7F80)
 
         // Test case 4: Zero multiplication
         operand_a = 16'h0000; // 0.0
@@ -189,6 +189,16 @@ module bf16_optimized_tb;
         operand_a = 16'h7280; // -2.0
         operand_b = 16'h7280; // -2.0
         operand_c = 16'h2000; // 2.0
+        #10
+        
+        operand_a = 16'h3f80; // -2.0
+        operand_b = 16'h3f80; // -2.0
+        operand_c = 16'h3f80; // 2.0
+        
+        #10
+        operand_a = 16'h4040; // -2.0
+        operand_b = 16'h4080; // -2.0
+        operand_c = 16'h4040; // 2.0
         #10
         #10
         #40
