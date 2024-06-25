@@ -34,7 +34,7 @@ module bf16_optimized_tb;
     reg [3:0] operation;
 
     // Outputs
-    wire [31:0] result;
+    wire [15:0] result;
     wire [3:0] fpcsr;
     
     // Instantiate the Unit Under Test (UUT)
@@ -61,7 +61,7 @@ module bf16_optimized_tb;
         operand_b = 0;
         operand_c = 0;
         enable = 0;
-        operation = 4'b1000; // Assuming operation code for FMA is 0111
+        operation = 4'b0111; // Assuming operation code for FMA is 0111
 
         // Wait for global reset
         #10;
@@ -189,17 +189,17 @@ module bf16_optimized_tb;
         operand_a = 16'h7280; // -2.0
         operand_b = 16'h7280; // -2.0
         operand_c = 16'h2000; // 2.0
-        #10
+        #30
         
         operand_a = 16'h3f80; // -2.0
         operand_b = 16'h3f80; // -2.0
         operand_c = 16'h3f80; // 2.0
         
         #10
-        operand_a = 16'h4040; // -2.0
-        operand_b = 16'h4080; // -2.0
-        operand_c = 16'h4040; // 2.0
-        #10
+//        operand_a = 16'h4040; // -2.0
+//        operand_b = 16'h4080; // -2.0
+//        operand_c = 16'h4040; // 2.0
+//        #10
         #10
         #40
         // Finish the simulation
