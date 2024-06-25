@@ -21,29 +21,11 @@
 
 
 
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 01/22/2024 03:56:17 PM
-// Design Name: 
-// Module Name: bf16_fma
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+
 
 
 `timescale 1ns / 1ps
+
 
 
 
@@ -55,7 +37,14 @@ module bf16_fma_op(
     input logic [15:0] op_b,
     input logic [15:0] op_c,
     input logic [3:0] oper, // Operation code
-    output logic [15:0] result,
+    // Input Handshake
+    input  logic                     in_valid_i,
+    output logic                     in_ready_o,
+    // Output handshake
+    output logic                     out_valid_o,
+    input  logic                     out_ready_i,
+    //result signals
+    output logic [31:0] result,
     output logic [3:0] fpcsr
 );
 
@@ -82,7 +71,7 @@ module bf16_fma_op(
     logic [TOTAL_MAN_BITS-1:0] aligned_addend_mantissa;
     logic [TOTAL_MAN_BITS:0] sum_mantissa; // In case of overflow
     logic [TOTAL_MAN_BITS+1:0] aligned_sum_mantissa; // For ground bit
-    logic [MAN_BITS:0] result_mantissa; // MSB for overflow
+    logic [23:0] result_mantissa; // MSB for overflow
     logic signed [EXP_WIDTH-1:0] product_exp, aligned_addend_exp, sum_exp;
     logic product_sign, sum_sign;
     logic [4:0] count;
@@ -94,7 +83,7 @@ module bf16_fma_op(
     logic [EXP_WIDTH-1:0] final_exp;
     logic [EXP_WIDTH-1:0] final_final_exp;
     logic final_sign;
-    logic [15:0] final_result_regular;
+    logic [31:0] final_result_regular;
     
     //pipelined_variables
    logic enable;
@@ -104,7 +93,7 @@ module bf16_fma_op(
    logic [EXP_WIDTH-1:0] product_exp_one;
    logic product_sign_one;
    logic result_is_special_one;
-   logic [15:0] special_result_one;
+   logic [31:0] special_result_one;
    logic invalid_one;
    logic invalid_two;
    logic is_zero_c_one;
@@ -114,8 +103,8 @@ module bf16_fma_op(
    logic is_zero_c_two;
    logic is_sub_c_two;
    logic result_is_special_two;
-   logic [15:0] special_result_two;
-   logic [15:0] result_regular_one;
+   logic [31:0] special_result_two;
+   logic [31:0] result_regular_one;
    
    
     
@@ -131,14 +120,19 @@ module bf16_fma_op(
     logic is_zero_a, is_zero_b, is_zero_c;
     
     logic result_is_special;
-    logic [15:0] result_special;
-    logic [15:0] result_regular;
-    logic [15:0] result_o;
+    logic [31:0] result_special;
+    logic [31:0] result_regular;
+    logic [31:0] result_o;
     logic invalid;
     logic overflow;
     logic underflow;
     logic inexact;
     logic clk_one;
+    
+    logic valid_pipeline;
+    logic valid_pipeline_one;
+    logic valid_pipeline_two;
+    logic valid_pipeline_three;
     
     
     
@@ -150,7 +144,7 @@ module bf16_fma_op(
   } fp_t;
 
     
-    assign clk_one = clk & enable;
+//    assign clk_one = clk & enable;
 
     fp_t operand_a, operand_b, operand_c;
     fp_t oper_a, oper_b, oper_c;
@@ -159,27 +153,34 @@ module bf16_fma_op(
     
     logic clkg_en;
 
-    always_latch  begin
-     if(~clk) 
-        clkg_en = enable;
-    end
+//    always_latch  begin
+//     if(~clk) 
+//        clkg_en = enable;
+//    end
        
-    assign gated_clk = clk & clkg_en;
+//    assign gated_clk = clk & clkg_en;
+
+    assign gated_clk = clk && enable;
     
-    always @(posedge gated_clk or posedge reset) begin
+    assign in_ready_o = valid_pipeline_three;
+    assign out_valid_o = valid_pipeline_three;
     
-    if(reset) begin
+    always @(posedge gated_clk or negedge reset) begin
+    
+    if(!reset) begin
         oper_a <= 0;
         oper_b <= 0;
         oper_c <= 0;
         oper_one <= 0; 
+        valid_pipeline <= 0;
     end
-    else begin
+    else if (in_valid_i) begin
         oper_a <= op_a;
         oper_b <= op_b;
         oper_c <= op_c;
         oper_one <= oper;
         enable <= en;
+        valid_pipeline <= in_valid_i;
 //    
 //        operand_a = op_a;
 //        operand_b = op_b;
@@ -260,7 +261,7 @@ module bf16_fma_op(
         if(is_sub_a) begin is_zero_a = 1'b1; end 
         if(is_sub_b) begin is_zero_b = 1'b1; end 
         if(is_sub_c) begin is_zero_c = 1'b1; operand_c = 0; end 
-    
+        
             
     end
 
@@ -276,20 +277,20 @@ module bf16_fma_op(
                                 (is_inf_a && is_zero_b) || (is_inf_b && is_zero_a) ||
                                 ((is_inf_a || is_inf_b) && is_inf_c && effective_subtraction) || (is_inf_a || is_inf_b || is_inf_c) || (is_sub_a || is_sub_b || is_zero_a || is_zero_b) ; 
            if (is_nan_a || is_nan_b || is_nan_c || ((is_inf_a && is_zero_b) || (is_inf_b && is_zero_a) || ((is_inf_a || is_inf_b) && is_inf_c && effective_subtraction))) begin
-                    result_special = 16'h7FC0; // Canonical qNaN for bfloat16
+                    result_special = 32'h7FC00000; // Canonical qNaN for bfloat16
                     invalid = 1; // NV flag for NaN or invalid operation
            end else if (is_inf_a || is_inf_b || is_inf_c) begin
                     if (is_inf_a || is_inf_b) begin
                         // Result is infinity with the sign of the product
-                        result_special = {operand_a.sign ^ operand_b.sign, 8'hFF, 7'b0}; // Infinity with sign of the product
+                        result_special = {operand_a.sign ^ operand_b.sign, 8'hFF, 23'h000000}; // Infinity with sign of the product
                     end else if (is_inf_c) begin
                         // Result is infinity with the sign of the addend (= operand_c)
-                        result_special = {operand_c.sign, 8'hFF, 7'b0}; // Infinity with sign of the addend
+                        result_special = {operand_c.sign, 8'hFF, 23'b000000}; // Infinity with sign of the addend
                     end
             end 
             else if (is_sub_a || is_sub_b || is_zero_a || is_zero_b)
             begin
-                 result_special = operand_c;
+                 result_special = {operand_c, 16'h0000};
             end
 //            else begin
 //                result_is_special =1'b0;
@@ -304,18 +305,18 @@ module bf16_fma_op(
         exp_a = operand_a.exponent;
         exp_b = operand_b.exponent;
         
-//        if (operand_a == 16'h3f80) //operand_a is 1
-//        begin
-//            aligned_product_mantissa = {man_b,{(TOTAL_MAN_BITS - MAN_BITS - 1){1'b0}}};
-//            product_exp = exp_b;    
-//        end
-//        else if (operand_b == 16'h3f80) //operand_b is 1
-//        begin
-//            aligned_product_mantissa = {man_a,{(TOTAL_MAN_BITS - MAN_BITS - 1){1'b0}}};
-//            product_exp = exp_a;
-//        end
+        if (operand_a == 16'h3f80) //operand_a is 1
+        begin
+            aligned_product_mantissa = {man_b,{(TOTAL_MAN_BITS - MAN_BITS - 1){1'b0}}};
+            product_exp = exp_b;    
+        end
+        else if (operand_b == 16'h3f80) //operand_b is 1
+        begin
+            aligned_product_mantissa = {man_a,{(TOTAL_MAN_BITS - MAN_BITS - 1){1'b0}}};
+            product_exp = exp_a;
+        end
             
-        //else begin    
+        else begin    
             // Calculate product of a and b with extended mantissa
             product_mantissa = man_a * man_b;
             product_exp = exp_a + exp_b - signed'(BIAS);
@@ -331,7 +332,7 @@ module bf16_fma_op(
                 product_mantissa = product_mantissa << 1;
             end
             aligned_product_mantissa = {product_mantissa, 16'b0};
-         
+        end 
         //product_exp = exp_a + exp_b - BIAS;
         product_sign = operand_a.sign ^ operand_b.sign;
         
@@ -348,6 +349,7 @@ module bf16_fma_op(
         is_zero_c_one <= is_zero_c;
         is_sub_c_one <= is_sub_c; 
         invalid_one <= invalid;
+        valid_pipeline_one <= valid_pipeline;
         
     
     end
@@ -391,22 +393,11 @@ module bf16_fma_op(
             sum_sign = product_sign_one;
         end
         
-         
-        
-        
-//         // Normalize result
-//        if (aligned_sum_mantissa[TOTAL_MAN_BITS+1] == 1'b1) begin
-//            sum_exp = sum_exp + 1;
-//            aligned_sum_mantissa = aligned_sum_mantissa >> 1;
-//        end
-//        else if (aligned_sum_mantissa == 0) begin
-//            sum_exp = 0;
-//        end
-        
-        
         // Update sum exponent
-        //sum_exp = aligned_addend_exp + (aligned_sum_mantissa[TOTAL_MAN_BITS] && (aligned_sum_mantissa != 1'b0));
-        sum_exp = aligned_addend_exp;
+       
+        
+        
+         sum_exp = aligned_addend_exp;
         
         // Shift sum mantissa
         aligned_sum_mantissa = {sum_mantissa, 1'b0};
@@ -433,6 +424,7 @@ module bf16_fma_op(
             is_sub_c_two <= is_sub_c_one;
             result_regular_one <= result_regular; 
             invalid_two <= invalid_one;
+            valid_pipeline_two <= valid_pipeline_one;
             
          
         end
@@ -491,25 +483,31 @@ module bf16_fma_op(
 //        end
            
      //always_comb begin      
-        guard_bit = aligned_lzc_mantissa[TOTAL_MAN_BITS - 8];
-        round_bit = aligned_lzc_mantissa[TOTAL_MAN_BITS - 9];
-        sticky_bit = |aligned_lzc_mantissa[TOTAL_MAN_BITS - 10:0]; // OR all bits below round bit
-        result_mantissa = aligned_lzc_mantissa[TOTAL_MAN_BITS - 1:TOTAL_MAN_BITS - 7];
-        if (guard_bit && (round_bit || sticky_bit)) begin
-            if (result_mantissa == 7'h7F) begin
+        guard_bit = aligned_lzc_mantissa[TOTAL_MAN_BITS - 24];
+        round_bit = aligned_lzc_mantissa[TOTAL_MAN_BITS - 25];
+        sticky_bit = |aligned_lzc_mantissa[TOTAL_MAN_BITS - 26:0]; // OR all bits below round bit
+        result_mantissa = aligned_lzc_mantissa[TOTAL_MAN_BITS - 1:TOTAL_MAN_BITS - 23];
+        if (guard_bit && (round_bit || sticky_bit) || ((aligned_lzc_mantissa[TOTAL_MAN_BITS - 23]) && guard_bit && !round_bit && !sticky_bit ) ) begin
+            
+            if (result_mantissa == 23'h7FFFFF) begin
                 final_exp = final_exp + 1; // Increment exponent due to mantissa overflow
                 result_mantissa = 0; // Reset mantissa to 0 because of overflow
             end else begin
                 result_mantissa = result_mantissa + 1; // Increment mantissa
             end 
         end
+        
+                
+        
+        
 //        // Round (Round to Nearest, ties to Even)
 //        round_bit = aligned_sum_mantissa[0];
 //        sticky_bit = |aligned_sum_mantissa[TOTAL_MAN_BITS - 1:0]; // OR all bits below round bit
 //        result_mantissa = aligned_sum_mantissa[TOTAL_MAN_BITS - 1:TOTAL_MAN_BITS - 7];
 //        if (round_bit && (aligned_sum_mantissa[MAN_BITS] || sticky_bit)) begin
 //            result_mantissa = result_mantissa + 1;
-//            if (result_mantissa[MAN_BITS]) begin               
+//   
+//         if (result_mantissa[MAN_BITS]) begin               
 //                sum_exp = sum_exp + 1;
 //            end
 //        end
@@ -518,14 +516,14 @@ module bf16_fma_op(
         if (final_exp >= 2**EXP_BITS - 1) begin
             //fpcsr[2]
             overflow = 1'b1;
-            final_result_regular = {final_sign, 8'hFF, 7'h00}; // Infinity
+            final_result_regular = {final_sign, 8'hFF, 23'h000000}; // Infinity
         end else if (final_exp <= 0) begin
             //fpcsr[1]
             underflow = 1'b1;
             inexact = 1'b1;
-            final_result_regular = {final_sign, 8'h00, 7'h00}; // Zero (subnormals flushed to zero)
+            final_result_regular = {final_sign, 8'h00, 23'h000000}; // Zero (subnormals flushed to zero)
         end else begin
-            final_result_regular = {final_sign, final_exp[7:0], result_mantissa[6:0]};
+            final_result_regular = {final_sign, final_exp[7:0], result_mantissa[22:0]};
         end
 
         // Set inexact flag if any of the lower bits were non-zero
@@ -544,11 +542,11 @@ module bf16_fma_op(
         else begin
             result_o = final_result_regular;
         end
-        if (result_o[14:7] == 8'b0 && result_o[6:0] != 0) begin result_o = 0; end
+        if (result_o[30:23] == 8'b0 && result_o[22:0] != 0) begin result_o = 0; end
     end
     
     always @(posedge gated_clk or posedge reset) begin
-    if(reset) begin
+    if(!reset) begin
         result <= 0;
         fpcsr <= 0;
     end
@@ -556,17 +554,14 @@ module bf16_fma_op(
         
         result <= result_o;
         fpcsr <= {invalid_two, overflow, underflow, inexact};
+        valid_pipeline_three <= valid_pipeline_two;
     
     end
     end
     
+ endmodule  
     
     
-    
-    
-    
-endmodule
-
 
 
 
