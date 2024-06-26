@@ -64,7 +64,7 @@ module tb_bf16_accelerator_top;
     initial begin
         // Initialize Inputs
         clk = 1;
-        reset = 0;
+        reset = 1;
         operand_a = 0;
         operand_b = 0;
         operand_c = 0;
@@ -79,7 +79,7 @@ module tb_bf16_accelerator_top;
         #10
         reset = 1;
         
-
+        operation = 4'b0111;
         // Wait for global reset
         #10
         enable = 1;
@@ -96,14 +96,14 @@ module tb_bf16_accelerator_top;
         operand_a = 32'h78701100; // 2.0 in FP32
         operand_b = 16'h3f90; // 1.0 in BF16
         operand_c = 32'h40a00000; // 5.0 in FP32
-        operation = 4'b0000; // FMA
+        operation = 4'b0111; // FMA
         #10
-        operation = 4'b0001;
+        operation = 4'b0111;
         in_valid_i = 1;
         operand_a = 32'h10004000; // 2.0 in FP32
         operand_b = 16'h4080; // 4.0 in BF16
         operand_c = 32'h40c00000; // 6.0 in FP32
-        operation = 4'b0001; // FMA
+        //operation = 4'b0111; // FMA
         #10
 
         // Test case 2: Special values (Infinity and NaN)
