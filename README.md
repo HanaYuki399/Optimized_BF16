@@ -88,16 +88,16 @@
 This project presents an open-source design of a low-cost, modular BFloat16 (BF16) Floating Point Unit (FPU) micro-architecture. The design targets RISC-V based embedded cores and is integrated with the [CV32E40P](https://github.com/openhwgroup/cv32e40p/tree/master) core. 
 
 The BF16 FPU includes custom instructions for the following operations:
-* Add: Perform a BF16 floating-point addition.
-* Subtract: Perform a BF16 floating-point subtraction.
-* Maximum: Find the maximum of two BF16 floating-point numbers.
-* Minimum: Find the minimum of two BF16 floating-point numbers.
-* Bf16 to Fp32 conversion: Convert a BF16 floating-point number to FP32 format.
-* Fp32 to Bf16 conversion: Convert an FP32 floating-point number to BF16 format.
-* FMADD (Floating point multiply add): Multiply two BF16 numbers and add a 32-bit accumulation result.
-* FMSUB (Floating point multiply subtract): Multiply two BF16 numbers and subtract from a 32-bit accumulation result.
-* FNMADD (Floating point negative multiply add): Multiply two BF16 numbers, negate the result, and add a 32-bit accumulation result.
-* FNMSUB (Floating point negative multiply subtract): Multiply two BF16 numbers, negate the result, and subtract from a 32-bit accumulation result.
+* **Add:** Perform a BF16 floating-point addition.
+* **Subtract:** Perform a BF16 floating-point subtraction.
+* **Maximum:** Find the maximum of two BF16 floating-point numbers.
+* **Minimum:** Find the minimum of two BF16 floating-point numbers.
+* **Bf16 to Fp32 conversion:** Convert a BF16 floating-point number to FP32 format.
+* **Fp32 to Bf16 conversion:** Convert an FP32 floating-point number to BF16 format.
+* **FMADD (Floating point multiply add):** Multiply two BF16 numbers and add a 32-bit accumulation result.
+* **FMSUB (Floating point multiply subtract):** Multiply two BF16 numbers and subtract from a 32-bit accumulation result.
+* **FNMADD (Floating point negative multiply add):** Multiply two BF16 numbers, negate the result, and add a 32-bit accumulation result.
+* **FNMSUB (Floating point negative multiply subtract):** Multiply two BF16 numbers, negate the result, and subtract from a 32-bit accumulation result.
 
 Our design relaxes certain features of the IEEE Floating-Point Standard to realize
 a cost-effective hardware implementation achieving almost 35% reduction in silicon
@@ -170,6 +170,19 @@ _Below is an example of how you can instruct your audience on installing and set
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+
+The custom instrcutions can be used as assembly or in inline assembly. The format used for the custom instructions is as follows:
+
+* **Add**: bf16.add fd,fs1,fs2
+* **Subtract**: bf16.sub fd,fs1,fs2
+* **Minimum**: bf16.min fd,fs1,fs2
+* **Maximum**: bf16.max fd,fs1,fs2
+* **bf16 to fp32**: bf16.fp32.conv fd,fs1
+* **fp32 to bf16**: fp32.bf16.conv fd,fs1
+* **fmadd**: bf16.fmadd fd,fs1,fs2,fs3
+* **fmsub**: bf16.fmsub fd,fs1,fs2,fs3
+* **fnmadd**: bf16.fnmadd fd,fs1,fs2,fs3
+* **fnmsub**: bf16.fnmsub fd,fs1,fs2,fs3
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
