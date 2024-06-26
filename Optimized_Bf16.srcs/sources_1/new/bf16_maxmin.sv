@@ -98,6 +98,7 @@ module bf16_minmax(
             valid_pipeline = 0;
         end else if (in_valid_i && out_ready_i) begin
             // Check for NaN
+            fpcsr = 0;
             operand_a_nan = (operand_a_exp == 8'hFF) && (operand_a_man != 0);
             operand_b_nan = (operand_b_exp == 8'hFF) && (operand_b_man != 0);
     
