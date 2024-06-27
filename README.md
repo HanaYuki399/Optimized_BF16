@@ -135,7 +135,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- GETTING STARTED -->
 ## Getting Started
 
-The gcc enviroment has already been set in the linked gcc toolchain with the custom instructions and the verification enviroment has been set core-v-verif with the cv32e40p containing the fpu under the core-v-cores folder in the repository. This has been done for ease of setup.
+The gcc toolchain has already been built in the linked gcc toolchain with the custom instructions included. The verification enviroment has been set in core-v-verif with the cv32e40p containing the fpu under the core-v-cores folder in the repository. This has been done for ease of setup.
 
 ### Prerequisites
 
@@ -150,16 +150,21 @@ This is an example of how to list things you need to use the software and how to
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
 
-1. Clone the gcc toolchain repo from here which is already setup for custom instructions. (You may use your own toolchain but riscv-gnu-toolchain/binutils/include/opcode/riscv-opc.h and binutils/opcodes/riscv-opc.c will have to be updated for custom instructions, and after which, you will have to build the toolchain again.)
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+1. Clone the post-built gcc toolchain repo from here (which is already setup with custom instructions) into a folder that is writeable 
+  ```sh
+   git clone https://github.com/10x-Engineers/Optimized_BF16_GCC.git
    ```
-2. Add the toolchain to your path
-3. Clone the core-v-verif repository. The Makefile and environ
+3. Now add the toolchain to your path. (Note: this is post built, so you do not need to build it, just add it's folder to your path). Like if you clone it in opt/riscv then add opt/riscv/Optimized_BF16_GCC/bin to your path.
+   ```sh
+   export PATH=$PATH:/path/to/bin/directory
+   ```
+4. Clone the core-v-verif repository. 
+5.
+6. y. The Makefile and environ
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
+7. Enter your API in `config.js`
    ```js
    const API_KEY = 'ENTER YOUR API';
    ```
