@@ -137,29 +137,25 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 The gcc toolchain has already been built in the linked gcc toolchain with the custom instructions included. The verification enviroment has been set in core-v-verif with the cv32e40p containing the fpu under the core-v-cores folder in the repository. This has been done for ease of setup.
 
-### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+### Setting up toolchain and verification environement
 
-### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
+You can setup the toolchain and verification environment using the following steps.
 
 1. Clone the post-built gcc toolchain repo from here (which is already setup with custom instructions) into a folder that is writeable 
   ```sh
    git clone https://github.com/10x-Engineers/Optimized_BF16_GCC.git
    ```
-3. Now add the toolchain to your path. (Note: this is post built, so you do not need to build it, just add it's folder to your path). Like if you clone it in opt/riscv then add opt/riscv/Optimized_BF16_GCC/bin to your path.
+2. Now add the toolchain to your path. (Note: this is post built, so you do not need to build it, just add it's folder to your path). Like if you clone it in opt/riscv then add opt/riscv/Optimized_BF16_GCC/bin to your path.
    ```sh
    export PATH=$PATH:/path/to/bin/directory
    ```
-4. Clone the core-v-verif repository. 
-5.
+3. Clone the core-v-verif repository.
+   ```sh
+   git clone https://github.com/10x-Engineers/core-v-verif.git
+   ```
+   Now checkout to the Bf16_Optimized branch. This branch contains the verification environment along with cv32e40p + BF16 RTL under core-v-cores folder.
+4. 
 6. y. The Makefile and environ
    ```sh
    npm install
